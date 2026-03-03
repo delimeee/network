@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/ilya/programs/cplex/cplex/",
+                "/home/ilya/programs/cplex/concert/",
+                "/home/ilya/programs/cplex/cplex/include",
+                "/home/ilya/programs/cplex/concert/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}
