@@ -7,10 +7,14 @@
                 "/home/ilya/programs/cplex/cplex/",
                 "/home/ilya/programs/cplex/concert/",
                 "/home/ilya/programs/cplex/cplex/include",
-                "/home/ilya/programs/cplex/concert/include"
+                "/home/ilya/programs/cplex/cplex/lib/x86-64_linux/static_pic/",
+                "/home/ilya/programs/cplex/concert/include",
+                "/home/ilya/programs/cplex/concert/lib/x86-64_linux/static_pic/",
+                "/usr/include/giomm-2.4/giomm",
+                "/usr/include/glibmm-2.4"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang",
+            "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "linux-clang-x64"

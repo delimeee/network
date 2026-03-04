@@ -15,14 +15,16 @@ CONCERTDIR    = ../../programs/cplex/concert/
 # Compiler selection 
 # ---------------------------------------------------------------------
 
-CCC = g++
+CCC = g++ -O0
+CC  = gcc -O0
+JAVAC = javac 
 
 # ---------------------------------------------------------------------
 # Compiler options 
 # ---------------------------------------------------------------------
 
-CCOPT = -m64 -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG
-COPT  = -m64 -fPIC
+CCOPT = -m64 -O -fPIC -fno-strict-aliasing -fexceptions -DNDEBUG -DIL_STD
+COPT  = -m64 -fPIC -fno-strict-aliasing
 JOPT  = -classpath $(CPLEXDIR)/lib/cplex.jar -O
 
 # ---------------------------------------------------------------------
@@ -34,48 +36,44 @@ CPLEXJARDIR   = $(CPLEXDIR)/lib/cplex.jar
 CPLEXLIBDIR   = $(CPLEXDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 CONCERTLIBDIR = $(CONCERTDIR)/lib/$(SYSTEM)/$(LIBFORMAT)
 
-# For dynamic linking
-CPLEXBINDIR   = $(CPLEXDIR)/bin/$(SYSTEM)
-CPLEXLIB      = cplex$(dynamic:yes=2212)
-run           = $(dynamic:yes=LD_LIBRARY_PATH=$(CPLEXBINDIR))
-
-CCLNDIRS  = -L$(CPLEXLIBDIR) -L$(CONCERTLIBDIR) $(dynamic:yes=-L$(CPLEXBINDIR))
-CCLNFLAGS = -lconcert -lilocplex -l$(CPLEXLIB) -lm -lpthread -ldl
+CCLNDIRS  = -L$(CPLEXLIBDIR) -L$(CONCERTLIBDIR)
+CLNDIRS   = -L$(CPLEXLIBDIR)
+CCLNFLAGS = -lconcert -lilocplex -lcplex -lm -lpthread
+CLNFLAGS  = -lcplex -lm -lpthread
+JAVA      = java  -d64 -Djava.library.path=$(CPLEXDIR)/bin/x86-64_linux -classpath $(CPLEXJARDIR):
 
 CONCERTINCDIR = $(CONCERTDIR)/include
 CPLEXINCDIR   = $(CPLEXDIR)/include
 
-OBJ = ./objects
-BUILD = ./build
-SRC = ./src
+EXDIR         = $(CPLEXDIR)/examples
+EXINC         = $(EXDIR)/include
+EXDATA        = $(EXDIR)/data
+EXSRCC        = $(EXDIR)/src/c
+EXSRCCX       = $(EXDIR)/src/c_x
+EXSRCCPP      = $(EXDIR)/src/cpp
+EXSRCJAVA     = $(EXDIR)/src/java
 
+CFLAGS  = $(COPT)  -I$(CPLEXINCDIR)
 CCFLAGS = $(CCOPT) -I$(CPLEXINCDIR) -I$(CONCERTINCDIR) 
+JCFLAGS = $(JOPT)
 
-all : clean elnet commi fake
+OBJ = ./object
+BUILD = ./build
+SRC = ./source
+LIB = ./library
+HEAD = ./header
+
+all : init
 
 clean : 
 	rm -f $(OBJ)/*
 	rm -f $(BUILD)/*
 
-elnet: cplex_code_202502.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o $(BUILD)/elnet $(OBJ)/cplex_code_202502.o $(CCLNFLAGS)
 
-cplex_code_202502.o: $(SRC)/cplex_code_202502.cpp
-	$(CCC) -c $(CCFLAGS) $(SRC)/cplex_code_202502.cpp -o $(OBJ)/cplex_code_202502.o
+init :
+	mkdir -p $(OBJ) $(SRC) $(LIB) $(BUILD) $(HEAD)
 
-commi : commi.obj
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o $(BUILD)/commi $(OBJ)/commi.o $(CCLNFLAGS)
-
-commi.obj : $(SRC)/commi.cpp
-	$(CCC) -c $(CCFLAGS) $(SRC)/commi.cpp -o $(OBJ)/commi.o
-
-fake : $(SRC)/fake_data_gen.cpp
-	$(CCC) $(SRC)/fake_data_gen.cpp -o $(BUILD)/fake
-
-graph : 
-	dot -Tpng graph.dot -o graph.png
-
-run :
-	./build/fake > ./Data/Cities.txt
-	./build/commi > runtime.log
-	dot -Tpng graph.dot -o graph.png
+blend: blend.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o blend blend.o $(CCLNFLAGS)
+blend.o: $(EXSRCCPP)/blend.cpp
+	$(CCC) -c $(CCFLAGS) $(EXSRCCPP)/blend.cpp -o blend.o
