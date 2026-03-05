@@ -86,7 +86,8 @@ SNPD делится на два класса:
 Нас интересуют именно структуры с низким уровнем связности.
 
 Известные и важные работы на эту тему до 1999 года:
-![Важные работы](./Screenshot_04032026_014231.png)
+
+![Важные работы](./resources/Screenshot_04032026_014231.png)
 
 # An Iterative Rounding 2-Approximation Algorithm for the Element Connectivity Problem
 
