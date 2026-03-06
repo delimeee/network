@@ -63,7 +63,7 @@ SRC = ./source
 LIB = ./library
 HEAD = ./header
 
-all : init
+all : init network
 
 clean : 
 	rm -f $(OBJ)/*
@@ -72,6 +72,19 @@ clean :
 
 init :
 	mkdir -p $(OBJ) $(SRC) $(LIB) $(BUILD) $(HEAD)
+
+network : $(OBJ)/network.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/wgraph.o $(OBJ)/network.o -o $(BUILD)/network
+
+$(OBJ)/network.o : $(SRC)/network.cpp
+	$(CCC) -c $(CCFLAGS) $(SRC)/network.cpp -o $(OBJ)/network.o
+
+$(OBJ)/wgraph.o : $(SRC)/wgraph.cpp
+	$(CCC) -c $(SRC)/wgraph.cpp -o $(OBJ)/wgraph.o
+
+
+
+
 
 blend: blend.o
 	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o blend blend.o $(CCLNFLAGS)
