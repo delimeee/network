@@ -45,6 +45,8 @@ make
 
 # Математическая модель
 
+ЕСЛИ LATEX НЕ ОТОБРАЖАЕТСЯ: [ДИПЛОМ](./resources/doc/диплом.pdf)
+
 ## Первое приближение
 
 $min \sum_{i = 0}^{N}\sum_{j = 0}^{N} C_{ij} y_{ij}$
@@ -66,7 +68,7 @@ $\forall S \in V \sum\limits_{\substack{i \in S\\ j \in V\backslash S}} y_{ij} \
 # Структура проекта
 
 ## Диаграмма классов
-![Classes Diagram](./resources/Classes%20Diagram.png)
+![Classes Diagram](./resources/ClassesDiagram/Classes%20Diagram.png)
 
 
 # Анализ
