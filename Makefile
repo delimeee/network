@@ -83,6 +83,8 @@ $(OBJ)/wgraph.o : $(SRC)/wgraph.cpp
 	$(CCC) -c $(SRC)/wgraph.cpp -o $(OBJ)/wgraph.o
 
 
+graph.o: $(SRC)/Graph/graph.cpp
+	$(CCC) -c $(SRC)/Graph/graph.cpp -o $(OBJ)/graph.o
 
 
 
