@@ -133,3 +133,43 @@ const std::vector<Edge>& Graph::get_edges(size_t i) const {
 
     return adj[i];
 }
+
+Edge& Graph::operator()(size_t i, size_t j) {
+    if (i >= adj.size() || j >= adj.size()) {
+        throw std::out_of_range("Edge doesn't exist");
+    }
+
+    return adj[i][j];
+}
+
+const Edge& Graph::operator()(size_t i, size_t j) const {
+    if (i >= adj.size() || j >= adj.size()) {
+        throw std::out_of_range("Edge doesn't exist");
+    }
+
+    return adj[i][j];
+}
+
+Node& Graph::operator[](size_t i) {
+    if (i >= nodes.size()) {
+        throw std::out_of_range("Node doesn't exist");
+    }
+
+    return nodes[i];
+}
+
+const Node& Graph::operator[](size_t i) const {
+    if (i >= nodes.size()) {
+        throw std::out_of_range("Node doesn't exist");
+    }
+
+    return nodes[i];
+}
+
+size_t Graph::size() const {
+    return nodes.size();
+}
+
+bool Graph::has_edge(size_t i, size_t j) const {
+    return adj[i][j].value > ERROR;
+}
