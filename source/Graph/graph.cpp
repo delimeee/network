@@ -54,7 +54,7 @@ Graph::Graph(const std::vector<Node>& nodesp)
 
 void Graph::add_edge(const Edge& e) {
     if(adj.size() <= e.from || adj.size() <= e.to) {
-        throw std::invalid_argument("Edge links to not existing nodes!");
+        throw std::out_of_range("Edge links to not existing nodes!");
     }
     adj[e.from][e.to] = e;
 }
@@ -75,7 +75,7 @@ void Graph::add_node(const Node& a) {
 
 void Graph::delete_edge(size_t i, size_t j) {
     if(adj.size() <= i || adj.size() <= j) {
-        throw std::invalid_argument("Edge links to not existing nodes!");
+        throw std::out_of_range("Edge links to not existing nodes!");
     }
 
     adj[i][j].value = 0.0;
@@ -87,7 +87,7 @@ void Graph::delete_edge(Edge& e) {
 
 Edge& Graph::get_edge(size_t i, size_t j) {
     if(adj.size() <= i || adj.size() <= j) {
-        throw std::invalid_argument("Edge links to not existing nodes!");
+        throw std::out_of_range("Edge links to not existing nodes!");
     }
 
     return adj[i][j];
@@ -95,7 +95,7 @@ Edge& Graph::get_edge(size_t i, size_t j) {
 
 std::vector<Edge>& Graph::get_edges(size_t i) {
     if(adj.size() <= i) {
-        throw std::invalid_argument("Node doesn't exist!");
+        throw std::out_of_range("Node doesn't exist!");
     }
 
     return adj[i];
@@ -103,7 +103,7 @@ std::vector<Edge>& Graph::get_edges(size_t i) {
 
 Node& Graph::get_node(size_t i) {
     if(adj.size() <= i) {
-        throw std::invalid_argument("Node doesn't exist!");
+        throw std::out_of_range("Node doesn't exist!");
     }
 
     return nodes[i];
@@ -112,7 +112,7 @@ Node& Graph::get_node(size_t i) {
 
 const Edge& Graph::get_edge(size_t i, size_t j) const {
     if(adj.size() <= i || adj.size() <= j) {
-        throw std::invalid_argument("Edge links to not existing nodes!");
+        throw std::out_of_range("Edge links to not existing nodes!");
     }
 
     return adj[i][j];
@@ -120,7 +120,7 @@ const Edge& Graph::get_edge(size_t i, size_t j) const {
 
 const Node& Graph::get_node(size_t i) const {
         if(adj.size() <= i) {
-        throw std::invalid_argument("Node doesn't exist!");
+        throw std::out_of_range("Node doesn't exist!");
     }
 
     return nodes[i];
@@ -128,7 +128,7 @@ const Node& Graph::get_node(size_t i) const {
 
 const std::vector<Edge>& Graph::get_edges(size_t i) const {
     if(adj.size() <= i) {
-        throw std::invalid_argument("Node doesn't exist!");
+        throw std::out_of_range("Node doesn't exist!");
     }
 
     return adj[i];
