@@ -36,6 +36,7 @@ Edge::Edge()
     : Edge(0, 0)
 { }
 
+Graph::Graph() { }
 
 Graph::Graph(size_t n): adj(n, std::vector<Edge>(n)), nodes(n) {
     for(size_t i = 0; i != n; ++i) {
