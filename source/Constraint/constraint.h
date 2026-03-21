@@ -1,19 +1,15 @@
-#ifndef CONSTRAINT_H
-#define CONSTRAINT_H
+#ifndef LIN_CONSTRAINT_H
+#define LIN_CONSTRAINT_H
 #include <ilcplex/ilocplex.h>
 
 
-virtual class Constraint {
-
+class Constraint {
+    public:
+        virtual IloExpr load();
 };
 
-class ConnectivityConstraint: Constraint {
-
-};
-
-class SurvivableConstraint: Constraint {
-
-};
+class ConnectivityConstraint: Constraint { };
+class SurvivableConstraint: Constraint { };
 
 
 #endif

@@ -1,6 +1,7 @@
 #ifndef OPT_MODEL_H
 #define OPT_MODEL_H
 #include <ilcplex/ilocplex.h>
+#include "../Constraint/constraint.h"
 #include "../Graph/graph.h"
 
 class OptimizationModel {
@@ -11,19 +12,15 @@ class OptimizationModel {
         Graph graph;
 
     public:
-
-        OptimizationModel();
         OptimizationModel(Graph&);
         ~OptimizationModel();
-        OptimizationModel(const OptimizationModel&);
-        OptimizationModel& operator=(OptimizationModel);
-        OptimizationModel(OptimizationModel&&);
-        OptimizationModel& operator=(OptimizationModel&&);
+        OptimizationModel(const OptimizationModel&) = delete;
+        OptimizationModel& operator=(OptimizationModel) = delete;
 
         Graph& get_solution();
-        void add_constraint(const Constraint&);
+        void add_constraint(Constraint&);
         IloModel& get_model();
         bool solve();
-}
+};
 
 #endif

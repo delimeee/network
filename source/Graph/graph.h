@@ -37,7 +37,7 @@ class Graph {
         std::vector<Node> nodes;
     public:
         // --- constructors ---
-        Graph()
+        Graph();
         Graph(size_t n);
         Graph(const std::vector<Node>& nodes);
 
