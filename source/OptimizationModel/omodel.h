@@ -6,10 +6,16 @@
 
 class OptimizationModel {
     private:
+        Graph graph;
         IloEnv env;
         IloModel model;
         IloCplex cplex;
-        Graph graph;
+        IloArray<IloNumArray> cplex_cost;
+        IloArray<IloNumArray> cplex_max_flow;
+        IloArray<IloNumVarArray> y;
+        IloArray<IloNumVarArray> f;
+        IloNumArray demand;
+
 
     public:
         OptimizationModel(Graph&);

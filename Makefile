@@ -73,10 +73,10 @@ clean :
 init :
 	mkdir -p $(OBJ) $(SRC) $(LIB) $(BUILD) $(HEAD)
 
-network : $(OBJ)/network.o $(OBJ)/wgraph.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/wgraph.o $(OBJ)/network.o -o $(BUILD)/network
+network : network.o graph.o omodel.o oengine.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/graph.o $(OBJ)/network.o  $(OBJ)/omodel.o $(OBJ)/oengine.o -o $(BUILD)/network $(CCLNFLAGS)
 
-$(OBJ)/network.o : $(SRC)/network.cpp
+network.o : $(SRC)/network.cpp
 	$(CCC) -c $(CCFLAGS) $(SRC)/network.cpp -o $(OBJ)/network.o
 
 graph.o: $(SRC)/Graph/graph.cpp
@@ -84,6 +84,9 @@ graph.o: $(SRC)/Graph/graph.cpp
 
 omodel.o: $(SRC)/OptimizationModel/omodel.cpp
 	$(CCC) -c $(CCFLAGS) $(SRC)/OptimizationModel/omodel.cpp -o $(OBJ)/omodel.o
+
+oengine.o: $(SRC)/OptimizationEngine/oengine.cpp
+	$(CCC) -c $(CCFLAGS) $(SRC)/OptimizationEngine/oengine.cpp -o $(OBJ)/oengine.o
 
 
 
