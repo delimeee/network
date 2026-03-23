@@ -74,36 +74,46 @@ OptimizationModel::OptimizationModel(Graph& g):
     }
 
     // Ограничение на количество входов/выходов
-    for(size_t i = 0; i != graph.size(); ++i) {
-        IloExpr max_y(env);
-        for(size_t j = 0; j != graph.size(); ++j) {
-            max_y += y[i][j];
-        }
-        model.add(max_y == 2.0);
-        max_y.end();
-    }
+    // for(size_t i = 0; i != graph.size(); ++i) {
+    //     IloExpr max_y(env);
+    //     for(size_t j = 0; j != graph.size(); ++j) {
+    //         max_y += y[i][j];
+    //     }
+    //     model.add(max_y == 2.0);
+    //     max_y.end();
+    // }
 
     // Закон Кхиргофа
-    for(size_t k = 0; k != graph.size(); ++k) {
-        
-        if(graph[k].type == NodeType::PowerStation) {
-            continue;
-        }
+    // for(size_t k = 0; k != graph.size(); ++k) {
+    //     if(graph[k].type == NodeType::PowerStation) {
+    //         continue;
+    //     }
 
-        IloExpr balance(env);
-        for(size_t i = 0; i != graph.size(); ++i) {
-            balance += f[i][k];
-        }
+    //     IloExpr balance(env);
+    //     for(size_t i = 0; i != graph.size(); ++i) {
+    //         if(k == i) {
+    //             continue;
+    //         }
+    //         balance += f[i][k];
+    //     }
 
-        for(size_t i = 0; i != graph.size(); ++i) {
-            balance -= f[k][i];
-        }
+    //     for(size_t i = 0; i != graph.size(); ++i) {
+    //         if(k == i) {
+    //             continue;
+    //         }
+    //         balance -= f[k][i];
+    //     }
 
-        model.add(balance == demand[k]);
-        balance.end();
-    }
+    //     model.add(balance == demand[k]);
+    //     balance.end();
+    // }
 
-    // 
+
+    // Исключаем дуги в самих себя 
+    // for(size_t i = 0; i != graph.size(); ++i) {
+    //     model.add(y[i][i] == 0.0);
+    //     model.add(f[i][i] == 0.0);
+    // }
 }
 
 OptimizationModel::~OptimizationModel() {

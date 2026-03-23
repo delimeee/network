@@ -9,7 +9,6 @@ class OptimizationEngine {
     private:
         OptimizationModel model;
         GraphAnalyzer graph_analyzer;
-        Graph& g;
 
     public:
         OptimizationEngine(Graph&);
