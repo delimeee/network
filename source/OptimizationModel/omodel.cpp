@@ -1,4 +1,5 @@
 #include "omodel.h"
+#include <cmath>
 
 OptimizationModel::OptimizationModel(Graph& g):
     env{},
@@ -57,7 +58,9 @@ OptimizationModel::OptimizationModel(Graph& g):
     IloExpr obj(env);
     for(int i = 0; i != graph.size(); ++i) {
         for(int j = 0; j != graph.size(); ++j) {
-            obj += cplex_cost[i][j] * y[i][j];
+            obj += cplex_cost[i][j] * y[i][j] * [](const Node& n1, const Node& n2){
+                return sqrt((n1.x - n1.x) * (n1.x - n1.x) + (n2.y - n2.y) * (n2.y - n2.y));
+            }(graph[i], graph[j]);
         }
     }
     model.add(IloMinimize(env, obj));
@@ -82,8 +85,12 @@ OptimizationModel::OptimizationModel(Graph& g):
 
     // Закон Кхиргофа
     for(size_t k = 0; k != graph.size(); ++k) {
-        IloExpr balance(env);
+        
+        if(graph[k].type == NodeType::PowerStation) {
+            continue;
+        }
 
+        IloExpr balance(env);
         for(size_t i = 0; i != graph.size(); ++i) {
             balance += f[i][k];
         }
@@ -95,6 +102,8 @@ OptimizationModel::OptimizationModel(Graph& g):
         model.add(balance == demand[k]);
         balance.end();
     }
+
+    // 
 }
 
 OptimizationModel::~OptimizationModel() {
