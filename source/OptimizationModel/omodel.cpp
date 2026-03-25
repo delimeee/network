@@ -1,6 +1,6 @@
 #include "omodel.h"
 #include <cmath>
-#include <iostream>
+// #include <iostream> //DEBUG
 
 OptimizationModel::OptimizationModel(Graph& g):
     env{},

@@ -20,7 +20,8 @@ int main() {
     for(size_t i = 0; i != nodes_amount; ++i) {
         for(size_t j = 0; j != nodes_amount; ++j) {
             if(i != j) {
-                std::cin >> graph(i, j).cost >> graph(i, j).max_flow;
+                graph(i, j).cost = 1;
+                graph(i, j).max_flow = 1000;
             } else {
                 graph(i, j).cost = 1.e8;
                 graph(i, j).max_flow = 0;
@@ -30,4 +31,13 @@ int main() {
 
     OptimizationEngine eng(graph);
     eng.run();
+
+
+    Graph g = eng.get_solution();
+    for(size_t i = 0; i != g.size(); ++i) {
+        for(size_t j = 0; j != g.size(); ++j) {
+            std::cout << g(i, j).value << ';' << g(i, j).flow << ' ';
+        }
+        std::cout << std::endl;
+    }
 }

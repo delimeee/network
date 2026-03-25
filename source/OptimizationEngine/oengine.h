@@ -13,6 +13,7 @@ class OptimizationEngine {
     public:
         OptimizationEngine(Graph&);
         void run();
+        Graph get_solution();
 };
 
 #endif
