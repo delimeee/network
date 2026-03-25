@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+# qwe
 # Пути к входным данным
 power_plant_file = "/Users/ksenialipendina/Desktop/📀/power_plant.txt"
 home_file = "/Users/ksenialipendina/Desktop/📀/home.txt"
