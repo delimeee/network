@@ -89,7 +89,9 @@ oengine.o: $(SRC)/OptimizationEngine/oengine.cpp
 	$(CCC) -c $(CCFLAGS) $(SRC)/OptimizationEngine/oengine.cpp -o $(OBJ)/oengine.o
 
 
-
+test:
+	cat ./input/test1.txt | ./build/network
+	cat ./input/test2.txt | ./build/network
 
 
 

@@ -22,7 +22,7 @@ int main() {
             if(i != j) {
                 std::cin >> graph(i, j).cost >> graph(i, j).max_flow;
             } else {
-                graph(i, j).cost = 0;
+                graph(i, j).cost = 1.e8;
                 graph(i, j).max_flow = 0;
             } 
         }

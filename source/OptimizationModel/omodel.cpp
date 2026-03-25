@@ -1,5 +1,6 @@
 #include "omodel.h"
 #include <cmath>
+#include <iostream>
 
 OptimizationModel::OptimizationModel(Graph& g):
     env{},
@@ -59,10 +60,11 @@ OptimizationModel::OptimizationModel(Graph& g):
     for(int i = 0; i != graph.size(); ++i) {
         for(int j = 0; j != graph.size(); ++j) {
             obj += cplex_cost[i][j] * y[i][j] * [](const Node& n1, const Node& n2){
-                return sqrt((n1.x - n1.x) * (n1.x - n1.x) + (n2.y - n2.y) * (n2.y - n2.y));
+                return sqrt((n1.x - n2.x) * (n1.x - n2.x) + (n1.y - n2.y) * (n1.y - n2.y));
             }(graph[i], graph[j]);
         }
     }
+    // std::cout << obj << std::endl; // DEBUG
     model.add(IloMinimize(env, obj));
     obj.end();
 
@@ -70,50 +72,62 @@ OptimizationModel::OptimizationModel(Graph& g):
     for(size_t i = 0; i != graph.size(); ++i) {
         for(size_t j = 0; j != graph.size(); ++j) {
             model.add(f[i][j] <= cplex_max_flow[i][j] * y[i][j]);
+
+            // std::cout << f[i][j]; //DEBUG
+            // std::cout << "<=" << cplex_max_flow[i][j] << '*' << y[i][j] << std::endl; //DEBUG
         }
     }
 
     // Ограничение на количество входов/выходов
-    // for(size_t i = 0; i != graph.size(); ++i) {
-    //     IloExpr max_y(env);
-    //     for(size_t j = 0; j != graph.size(); ++j) {
-    //         max_y += y[i][j];
-    //     }
-    //     model.add(max_y == 2.0);
-    //     max_y.end();
-    // }
+    for(size_t k = 0; k != graph.size(); ++k) {
+        IloExpr max_y(env);
+        for(size_t j = 0; j != graph.size(); ++j) {
+            if(k != j) max_y += y[k][j];
+        }
+
+        for(size_t i = 0; i != graph.size(); ++i) {
+            if(k != i) max_y += y[i][k];
+        }
+
+        // std::cout << max_y << '=' << 2.0 << std::endl; // DEBUG
+        model.add(max_y == 2.0);
+        max_y.end();
+    }
 
     // Закон Кхиргофа
-    // for(size_t k = 0; k != graph.size(); ++k) {
-    //     if(graph[k].type == NodeType::PowerStation) {
-    //         continue;
-    //     }
+    for(size_t k = 0; k != graph.size(); ++k) {
+        if(graph[k].type == NodeType::PowerStation) {
+            continue;
+        }
 
-    //     IloExpr balance(env);
-    //     for(size_t i = 0; i != graph.size(); ++i) {
-    //         if(k == i) {
-    //             continue;
-    //         }
-    //         balance += f[i][k];
-    //     }
+        IloExpr balance(env);
+        for(size_t i = 0; i != graph.size(); ++i) {
+            if(k == i) {
+                continue;
+            }
+            balance += f[i][k];
+        }
 
-    //     for(size_t i = 0; i != graph.size(); ++i) {
-    //         if(k == i) {
-    //             continue;
-    //         }
-    //         balance -= f[k][i];
-    //     }
+        for(size_t i = 0; i != graph.size(); ++i) {
+            if(k == i) {
+                continue;
+            }
+            balance -= f[k][i];
+        }
 
-    //     model.add(balance == demand[k]);
-    //     balance.end();
-    // }
+        // std::cout << balance << '=' << demand[k] << std::endl; // DEBUG
+        model.add(balance == demand[k]);
+        balance.end();
+    }
 
 
     // Исключаем дуги в самих себя 
-    // for(size_t i = 0; i != graph.size(); ++i) {
-    //     model.add(y[i][i] == 0.0);
-    //     model.add(f[i][i] == 0.0);
-    // }
+    for(size_t i = 0; i != graph.size(); ++i) {
+        model.add(y[i][i] == 0.0);
+        model.add(f[i][i] == 0.0);
+        // std::cout << y[i][i] << '=' << 0.0 << std::endl; //DEBUG
+        // std::cout << f[i][i] << '=' << 0.0 << std::endl; //DEBUG
+    }
 }
 
 OptimizationModel::~OptimizationModel() {

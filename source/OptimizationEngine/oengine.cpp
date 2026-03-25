@@ -6,7 +6,7 @@ OptimizationEngine::OptimizationEngine(Graph& g): model{g} { }
 void OptimizationEngine::run() {
     if(!model.solve()) {
         std::cout << "Задача не решилась" << std::endl;
-        throw std::runtime_error("ЗАДАЧА НЕ РЕШЕНА!!!!");
+        return;
     }
 
     Graph g = model.get_solution();
