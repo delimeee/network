@@ -1,6 +1,9 @@
 #include<iostream>
 #include "OptimizationEngine/oengine.h"
 #include "Graph/graph.h"
+#include <fstream> 
+
+void write_graph(Graph& g);
 
 int main() {
     size_t nodes_amount;
@@ -32,12 +35,43 @@ int main() {
     OptimizationEngine eng(graph);
     eng.run();
 
-
     Graph g = eng.get_solution();
     for(size_t i = 0; i != g.size(); ++i) {
         for(size_t j = 0; j != g.size(); ++j) {
             std::cout << g(i, j).value << ';' << g(i, j).flow << ' ';
         }
         std::cout << std::endl;
+    }
+
+    write_graph(g);    
+}
+
+void write_graph(Graph& g) {
+    std::ofstream file("output.txt");
+    for(size_t i = 0; i != g.size(); ++i) {
+        file << g[i].x << ';' << g[i].y << ';' << g[i].demand << ';';
+        if(g[i].type == NodeType::City) {
+            file << "City";
+        } else {
+            file << "Station";
+        }
+
+        if(i != g.size() - 1) {
+            file << ' ';
+        }
+    }
+    file << std::endl;
+    for(size_t i = 0; i != g.size(); ++i) {
+        bool writed = false;
+        for(size_t j = 0; j != g.size(); ++j) {
+            if(g(i, j).value != 0) {
+                if(writed) {
+                    file << ' ';
+                }
+                writed = true;
+                file << j << ';' << g(i, j).value << ';' << g(i, j).flow;
+            }
+        }
+        file << std::endl;
     }
 }

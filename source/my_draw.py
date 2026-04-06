@@ -1,12 +1,24 @@
 import networkx as nx
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as mpl
 
-G = nx.Graph()
 
-G.add_node(1, x=0.0, y=1.0)
-G.add_node(2, x=2.0, y=3.0)
+g = nx.Graph()
+with open('output.txt', 'r') as f:
+    nodes = []
+    str_solid_nodes = f.readline()
+    str_nodes = str_solid_nodes.split()
+    for str_node in str_nodes:
+        str_x, str_y, str_demand, type = str_node.split(';')
+        nodes.append(tuple(int(str_demand), {
+            'type': type,
+            'x': int(str_x),
+            'y': int(str_y),
+            'demand': float(str_demand),
+            'name': str_node
+            }))
+    
+    g.add_nodes_from(nodes)
+    for i in range(len(nodes)):
+        str_connected_nodes = f.readline().split()
+        
 
-# доступ
-print(G.nodes[1]['x'], G.nodes[1]['y'])
-nx.draw_shell(G, nlist=[range(5, 10), range(5)], with_labels=True, font_weight='bold')
-plt.show()
