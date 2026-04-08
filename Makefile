@@ -3,8 +3,7 @@ LIBFORMAT  = static_pic
 
 #------------------------------------------------------------
 #
-# When you adapt this makefile to compile your CPLEX programs
-# please copy this makefile and set CPLEXDIR and CONCERTDIR to
+# Please set CPLEXDIR and CONCERTDIR to
 # the directories where CPLEX and CONCERT are installed.
 #
 #------------------------------------------------------------
@@ -71,7 +70,7 @@ clean :
 
 
 init :
-	mkdir -p $(OBJ) $(SRC) $(LIB) $(BUILD) $(HEAD)
+	mkdir -p $(OBJ) $(SRC) $(BUILD)
 
 network : network.o graph.o omodel.o oengine.o
 	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/graph.o $(OBJ)/network.o  $(OBJ)/omodel.o $(OBJ)/oengine.o -o $(BUILD)/network $(CCLNFLAGS)
