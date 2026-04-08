@@ -48,7 +48,7 @@ int main() {
 }
 
 void write_graph(Graph& g) {
-    std::ofstream file(std::string(OUTPUT_DIR) + "output.txt");
+    std::ofstream file(std::string`(OUTPUT_DIR) + "output.txt");
     for(size_t i = 0; i != g.size(); ++i) {
         file << g[i].x << ';' << g[i].y << ';' << g[i].demand << ';';
         if(g[i].type == NodeType::City) {

@@ -67,7 +67,7 @@ cat ./input/test2 | ./build/network
 
 Далее, после запуска виртуального окружения, можно отрисовать граф командой:
 ```
-python draw.py
+python ./source/draw.py
 ```
 Подробнее про отрисовку [тут](#отрисовка-графа).
 
@@ -119,7 +119,7 @@ pip install -r requirements.txt
 
 Запустить скрипт **draw.py**:
 ```
-python draw.py
+python ./source/draw.py
 ```
 
 Изображение **graph.svg** сохраняется в директории **output** и отрывается окно с графом.
