@@ -43,7 +43,7 @@ OptimizationModel::OptimizationModel(Graph& g):
 
     // Переменные потока
     for(int i = 0; i != graph.size(); ++i) {
-        f[i] = IloNumVarArray(env, graph.size(), 0.0, 1000.0, ILOFLOAT);
+        f[i] = IloNumVarArray(env, graph.size(), -1000.0, 1000.0, ILOFLOAT);
         for(int j = 0; j != graph.size(); ++j) {
             std::string var_name = "f" + std::to_string(i+1) + '_' + std::to_string(j+1);
             f[i][j].setName(var_name.c_str());
@@ -127,6 +127,14 @@ OptimizationModel::OptimizationModel(Graph& g):
         model.add(f[i][i] == 0.0);
         // std::cout << y[i][i] << '=' << 0.0 << std::endl; //DEBUG
         // std::cout << f[i][i] << '=' << 0.0 << std::endl; //DEBUG
+    }
+
+    // Симметричность для неориентированного графа
+    for(size_t i = 0; i < graph.size() - 1; ++i) {
+        for(size_t j = i + 1; j != graph.size(); ++j) {
+            model.add(y[i][j] - y[j][i] == 0);
+            model.add(f[i][j] + f[j][i] == 0);
+        }
     }
 }
 
