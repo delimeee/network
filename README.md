@@ -140,7 +140,7 @@ $\sum y_{ij} \geqslant 2$
 
 ## Эвристика для добавления отказоустойчивости
 
-$\forall S \subset V\space\sum\limits_{\substack{i \in S\\j \in V \backslash S}} y_{ij}\geqslant - \dfrac{\sum\limits_{k \in S} P_{k} - \sum\limits_{k \in S} d_{k} - P_{k}^{*}}{u^{*}}$
+$\forall S \subset V\space\sum\limits_{\substack{i \in S\\j \in V \backslash S}} y_{ij}\geqslant \left\lceil - \dfrac{\sum\limits_{k \in S} P_{k} - \sum\limits_{k \in S} d_{k} - P_{k}^{*}}{u^{*}} \right\rceil$
 
 ## Эвристика для связности графа
 

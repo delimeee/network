@@ -1,70 +1,64 @@
 #include "ganalyzer.h"
+#include "../Graph/graph.h"
 #include <vector>
 #include <cstdint>
+#include <queue>
+#include <cmath>
+#include <unordered_set>
+#define MAX_FLOW 1000.0
+#define ERROR 1.e-8
 
-uint64_t size_byte_mask(size_t i);
-std::vector<size_t> byte_mask_vector(size_t n);
-bool num_in_sub_array(size_t n, uint64_t mask);
-double count_y(const Graph& g,  const std::vector<size_t>& nums, uint64_t byte_mask_ps, uint64_t byte_mask_cities);
-
-bool GraphAnalyzer::is_survivable(Graph& g) {
-    std::vector<size_t> cities;
-    std::vector<size_t> ps;
-    std::vector<size_t> nums(g.size());
-    for(size_t i = 0; i != g.size(); ++i) {
-        if(g[i].type == NodeType::City) {
-            cities.push_back(i);
-            nums[i] = cities.size() - 1;
-        } else {
-            ps.push_back(i);
-            nums[i] = ps.size() - 1;
+bool check_surv_constraint(const Graph& g, const std::unordered_set<size_t>& sub_g) {
+    double sum_y = 0;
+    double sum_p = 0;
+    double sum_d = 0;
+    double max_p = -1;
+    for(auto& cur: sub_g) {
+        for(size_t i = 0; i != g.size(); ++i) {
+            if(g(cur, i).value > ERROR && !sub_g.contains(i)) {
+                sum_y += g(cur, i).value;
+                if(g[i].type == NodeType::PowerStation) {
+                    sum_p += g[i].demand;
+                    max_p = std::max(max_p, sum_p);
+                }
+                else if(g[i].type == NodeType::City) sum_d += g[i].demand;
+            }
         }
     }
 
-    uint64_t byte_mask_ps = size_byte_mask(ps.size());
-    for(size_t i = byte_mask_ps; i >= 0; i--) {
-
-        uint64_t byte_mask_cities = size_byte_mask(cities.size());
-        for(size_t j = byte_mask_cities; j >= 0; j--) {
-
-        }
-    }
+    return sum_y >= - ceil((sum_p - sum_d - max_p)) / MAX_FLOW;
 }
 
+void bfs(const Graph& g, int cur) {
+    std::queue<size_t> q;
+    q.push(cur);
 
-uint64_t size_byte_mask(size_t n) {
-    uint64_t mask = 0;
-    for(size_t i = 0; i != n; ++i) {
-        mask <<= 1;
-        mask += 1;
-    }
-    return mask;
-}
+    std::vector<size_t> d(g.size(), -1);
+    d[cur] = 0;
 
-bool num_in_sub_array(size_t n, uint64_t mask) {
-    return (mask >> n) & 1 == 1;
-}
+    std::unordered_set<size_t> sub_graph;
+    sub_graph.insert(cur);
 
-double count_y(const Graph& g, const std::vector<size_t>& nums, uint64_t byte_mask_ps, uint64_t byte_mask_cities) {
-    double count = 0;
-    for(size_t i = 0; i != g.size(); ++i) {
-        bool is_in_cities =  
-        if() {
-            continue;
-        }
-
-        for(size_t j = 0; j != g.size(); ++j) {
-            if(num_in_sub_array(j, mask)) {
+    while(!q.empty()) {
+        size_t v = q.front();
+        q.pop();
+        for(size_t i = 0; i != g.size(); ++i) {
+            if(!(g(v, i).value > ERROR && d[i] != -1)) {
                 continue;
             }
 
-            count += g(i, j).value;
+            q.push(i);
+            d[i] = d[v] + 1;
+            sub_graph.insert(i);
+
+            if(!check_surv_constraint(g, sub_graph)) {
+
+            }
         }
     }
-
-    return count;
 }
 
-double count_demands(Graph& g, uint64_t mask) {
 
+bool GraphAnalyzer::is_survivable(Graph& g) {
+    
 }

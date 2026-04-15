@@ -7,6 +7,7 @@ g = nx.Graph()
 pos = {}
 node_labels = {}
 edge_labels = {}
+node_colors = []
 with open(OUTPUT_DIR + 'output.txt', 'r') as f:
     nodes = []
     str_solid_nodes = f.readline()
@@ -19,6 +20,10 @@ with open(OUTPUT_DIR + 'output.txt', 'r') as f:
             }))
         pos[i] = (int(str_x), int(str_y))
         node_labels[i] = f'{type}:{str_demand}'
+        if type == 'Station':
+            node_colors.append('orange')
+        else:
+            node_colors.append('blue')
 
     g.add_nodes_from(nodes)
     for i in range(len(nodes)):
@@ -39,6 +44,6 @@ with open(OUTPUT_DIR + 'output.txt', 'r') as f:
 
 
 nx.draw_networkx_edge_labels(g, pos, edge_labels=edge_labels)
-nx.draw(g, pos=pos, labels=node_labels, with_labels=True)
+nx.draw(g, pos=pos, labels=node_labels, node_color=node_colors, with_labels=True)
 plt.savefig(OUTPUT_DIR + 'graph.svg')
 plt.show()
