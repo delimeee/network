@@ -73,7 +73,7 @@ init :
 	mkdir -p $(OBJ) $(SRC) $(BUILD)
 
 run :
-	cat ./input/easy.txt | ./build/network
+	cat ./input/main.txt | ./build/network
 	python ./source/draw.py
 
 network : network.o graph.o omodel.o oengine.o
