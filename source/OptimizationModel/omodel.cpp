@@ -12,7 +12,7 @@ OptimizationModel::OptimizationModel(Graph& g):
     f(env, graph.size()),
     demand(env, graph.size()),
     graph(g) {
-    // Добавляем стоимости
+    // Costs
     for (int i = 0; i < graph.size(); ++i) {
         cplex_cost[i] = IloNumArray(env, graph.size());
     }
@@ -22,7 +22,7 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Добавляем максимальные потоки
+    // Maximum possible flow
     for (int i = 0; i < graph.size(); ++i) {
         cplex_max_flow[i] = IloNumArray(env, graph.size());
     }
@@ -32,7 +32,7 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Добавляем переменные y
+    // Structure vars y
     for(int i = 0; i != graph.size(); ++i) {
         y[i] = IloNumVarArray(env, graph.size(), 0.0, 1.0, ILOFLOAT);
         for(int j = 0; j != graph.size(); ++j) {
@@ -41,7 +41,7 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Переменные потока
+    // Flow vars f
     for(int i = 0; i != graph.size(); ++i) {
         f[i] = IloNumVarArray(env, graph.size(), 0.0, 1000.0, ILOFLOAT);
         for(int j = 0; j != graph.size(); ++j) {
@@ -50,12 +50,12 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Потребление
+    // Concumption/Production
     for(size_t i = 0; i != graph.size(); ++i) {
         demand[i] = graph[i].demand;
     }
 
-    // Добавляем ЦФ
+    // Objective function
     IloExpr obj(env);
     for(int i = 0; i != graph.size(); ++i) {
         for(int j = 0; j != graph.size(); ++j) {
@@ -68,7 +68,7 @@ OptimizationModel::OptimizationModel(Graph& g):
     model.add(IloMinimize(env, obj));
     obj.end();
 
-    // Ограничения на максимальный поток
+    // Maximum flow constraint
     for(size_t i = 0; i != graph.size(); ++i) {
         for(size_t j = 0; j != graph.size(); ++j) {
             model.add(f[i][j] <= cplex_max_flow[i][j] * y[i][j]);
@@ -78,19 +78,23 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Ограничение на количество входов/выходов
+    // Input/Output constraint
     for(size_t k = 0; k != graph.size(); ++k) {
         IloExpr max_y(env);
         for(size_t j = 0; j != graph.size(); ++j) {
             if(k != j) max_y += y[k][j];
         }
 
+        // Add it only for directed y graph(non-symetric adjency matrix)
+        for(size_t j = 0; j != graph.size(); ++j) {
+            if(k != j) max_y += y[j][k];
+        }
         // std::cout << max_y << '=' << 2.0 << std::endl; // DEBUG
         model.add(max_y == 2.0);
         max_y.end();
     }
 
-    // Закон Кхиргофа
+    // Kirchhoff law constraint
     for(size_t k = 0; k != graph.size(); ++k) {
         if(graph[k].type == NodeType::PowerStation) {
             continue;
@@ -111,6 +115,7 @@ OptimizationModel::OptimizationModel(Graph& g):
             balance -= f[k][i];
         }
 
+        // Bad idea to include it
         // if(graph[k].type == NodeType::PowerStation) {
         //     model.add(balance == demand[k]);
         // } else {
@@ -122,7 +127,7 @@ OptimizationModel::OptimizationModel(Graph& g):
     }
 
 
-    // Исключаем дуги в самих себя 
+    // Exclude self-directed arc and edges constraint
     for(size_t i = 0; i != graph.size(); ++i) {
         model.add(y[i][i] == 0.0);
         model.add(f[i][i] == 0.0);
@@ -130,12 +135,12 @@ OptimizationModel::OptimizationModel(Graph& g):
         // std::cout << f[i][i] << '=' << 0.0 << std::endl; //DEBUG
     }
 
-    // Симметричность для неориентированного графа
-    for(size_t i = 0; i < graph.size() - 1; ++i) {
-        for(size_t j = i + 1; j != graph.size(); ++j) {
-            model.add(y[i][j] - y[j][i] == 0);
-        }
-    }
+    // Simmetry for not directed structure graph
+    // for(size_t i = 0; i < graph.size() - 1; ++i) {
+    //     for(size_t j = i + 1; j != graph.size(); ++j) {
+    //         model.add(y[i][j] - y[j][i] == 0);
+    //     }
+    // }
 }
 
 OptimizationModel::~OptimizationModel() {
