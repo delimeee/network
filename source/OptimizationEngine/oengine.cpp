@@ -5,7 +5,7 @@ OptimizationEngine::OptimizationEngine(Graph& g): model{g} { }
 
 void OptimizationEngine::run() {
     if(!model.solve()) {
-        std::cout << "Задача не решилась" << std::endl;
+        std::cout << "Почему она не решается то" << std::endl;
         return;
     }
 }

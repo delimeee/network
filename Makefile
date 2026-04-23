@@ -72,6 +72,10 @@ clean :
 init :
 	mkdir -p $(OBJ) $(SRC) $(BUILD)
 
+run :
+	cat ./input/easy.txt | ./build/network
+	python ./source/draw.py
+
 network : network.o graph.o omodel.o oengine.o
 	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/graph.o $(OBJ)/network.o  $(OBJ)/omodel.o $(OBJ)/oengine.o -o $(BUILD)/network $(CCLNFLAGS)
 

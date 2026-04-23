@@ -43,7 +43,7 @@ OptimizationModel::OptimizationModel(Graph& g):
 
     // Переменные потока
     for(int i = 0; i != graph.size(); ++i) {
-        f[i] = IloNumVarArray(env, graph.size(), -1000.0, 1000.0, ILOFLOAT);
+        f[i] = IloNumVarArray(env, graph.size(), 0.0, 1000.0, ILOFLOAT);
         for(int j = 0; j != graph.size(); ++j) {
             std::string var_name = "f" + std::to_string(i+1) + '_' + std::to_string(j+1);
             f[i][j].setName(var_name.c_str());
@@ -85,10 +85,6 @@ OptimizationModel::OptimizationModel(Graph& g):
             if(k != j) max_y += y[k][j];
         }
 
-        for(size_t i = 0; i != graph.size(); ++i) {
-            if(k != i) max_y += y[i][k];
-        }
-
         // std::cout << max_y << '=' << 2.0 << std::endl; // DEBUG
         model.add(max_y == 2.0);
         max_y.end();
@@ -115,8 +111,13 @@ OptimizationModel::OptimizationModel(Graph& g):
             balance -= f[k][i];
         }
 
-        // std::cout << balance << '=' << demand[k] << std::endl; // DEBUG
+        // if(graph[k].type == NodeType::PowerStation) {
+        //     model.add(balance == demand[k]);
+        // } else {
+        //     model.add(balance >= -demand[k]);
+        // }
         model.add(balance == demand[k]);
+        // std::cout << balance << '=' << demand[k] << std::endl; // DEBUG
         balance.end();
     }
 
@@ -133,7 +134,6 @@ OptimizationModel::OptimizationModel(Graph& g):
     for(size_t i = 0; i < graph.size() - 1; ++i) {
         for(size_t j = i + 1; j != graph.size(); ++j) {
             model.add(y[i][j] - y[j][i] == 0);
-            model.add(f[i][j] + f[j][i] == 0);
         }
     }
 }
