@@ -43,7 +43,7 @@ OptimizationModel::OptimizationModel(Graph& g):
 
     // Flow vars f
     for(int i = 0; i != graph.size(); ++i) {
-        f[i] = IloNumVarArray(env, graph.size(), 0.0, 1000.0, ILOFLOAT);
+        f[i] = IloNumVarArray(env, graph.size(), 0.0, 500.0, ILOFLOAT);
         for(int j = 0; j != graph.size(); ++j) {
             std::string var_name = "f" + std::to_string(i+1) + '_' + std::to_string(j+1);
             f[i][j].setName(var_name.c_str());
@@ -86,9 +86,9 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
 
         // Add it only for directed y graph(non-symetric adjency matrix)
-        for(size_t j = 0; j != graph.size(); ++j) {
-            if(k != j) max_y += y[j][k];
-        }
+        // for(size_t j = 0; j != graph.size(); ++j) {
+        //     if(k != j) max_y += y[j][k];
+        // }
         // std::cout << max_y << '=' << 2.0 << std::endl; // DEBUG
         model.add(max_y == 2.0);
         max_y.end();
@@ -136,11 +136,11 @@ OptimizationModel::OptimizationModel(Graph& g):
     }
 
     // Simmetry for not directed structure graph
-    // for(size_t i = 0; i < graph.size() - 1; ++i) {
-    //     for(size_t j = i + 1; j != graph.size(); ++j) {
-    //         model.add(y[i][j] - y[j][i] == 0);
-    //     }
-    // }
+    for(size_t i = 0; i < graph.size() - 1; ++i) {
+        for(size_t j = i + 1; j != graph.size(); ++j) {
+            model.add(y[i][j] - y[j][i] == 0);
+        }
+    }
 }
 
 OptimizationModel::~OptimizationModel() {

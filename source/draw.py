@@ -54,7 +54,7 @@ with open(OUTPUT_DIR + 'output.txt', 'r') as f:
                        value=float(value),
                        flow=float(flow),
                        name=str_to)
-                
+
                 edge_labels_dir[(i, int(to))] = f'flw:{flow}'
 
 
@@ -83,6 +83,30 @@ nx.draw(
     with_labels=True,
     ax=axes[0]
 )
-nx.draw(dg, pos=pos, labels=node_labels, node_color=node_colors, with_labels=True, ax=axes[1])
-plt.savefig(OUTPUT_DIR + 'graph.svg')
+nx.draw(
+    dg,
+    pos=pos,
+    labels=node_labels,
+    node_color=node_colors,
+    with_labels=True,
+    ax=axes[1]
+)
+#plt.savefig(OUTPUT_DIR + 'graph.svg')
+plt.show()
+
+nx.draw_networkx_edge_labels(
+    dg, pos,
+    edge_labels=edge_labels_dir,
+    label_pos=0.7,
+    rotate=False,
+    font_size=8,
+    bbox=dict(facecolor='white', alpha=0.7, pad=0.2),
+)
+nx.draw(
+    dg,
+    pos=pos,
+    labels=node_labels,
+    node_color=node_colors,
+    with_labels=True,
+)
 plt.show()

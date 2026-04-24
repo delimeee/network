@@ -3,6 +3,7 @@
 #include "Graph/graph.h"
 #include <fstream>
 #define OUTPUT_DIR "output/"
+#define MAX_FLOW 500
 
 void write_graph(Graph& g);
 
@@ -25,7 +26,7 @@ int main() {
         for(size_t j = 0; j != nodes_amount; ++j) {
             if(i != j) {
                 graph(i, j).cost = 1;
-                graph(i, j).max_flow = 1000;
+                graph(i, j).max_flow = MAX_FLOW;
             } else {
                 graph(i, j).cost = 1.e8;
                 graph(i, j).max_flow = 0;
@@ -38,6 +39,7 @@ int main() {
 
     Graph g = eng.get_solution();
     for(size_t i = 0; i != g.size(); ++i) {
+        std::cout << i + 1<< ' ';
         for(size_t j = 0; j != g.size(); ++j) {
             std::cout << g(i, j).value << ';' << g(i, j).flow << ' ';
         }
