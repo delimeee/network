@@ -1,7 +1,6 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 #include<vector>
-#define ERROR 1.e-8
 enum class NodeType {
     City,
     PowerStation

@@ -1,11 +1,13 @@
 #include<iostream>
+#include <iomanip>
+#include <sstream>
 #include "OptimizationEngine/oengine.h"
 #include "Graph/graph.h"
+#include "constants.h"
 #include <fstream>
-#define OUTPUT_DIR "output/"
-#define MAX_FLOW 500
 
-void write_graph(Graph& g);
+void write_graph(const Graph& g);
+void print_graph(const Graph& g);
 
 int main() {
     size_t nodes_amount;
@@ -38,18 +40,41 @@ int main() {
     eng.run();
 
     Graph g = eng.get_solution();
-    for(size_t i = 0; i != g.size(); ++i) {
-        std::cout << i + 1<< ' ';
-        for(size_t j = 0; j != g.size(); ++j) {
-            std::cout << g(i, j).value << ';' << g(i, j).flow << ' ';
-        }
-        std::cout << std::endl;
+    if(g.size() == 0) {
+        std::cout << "Задача не решилась" << std::endl;
+        return 0;
     }
-
+    print_graph(g);
     write_graph(g);    
 }
 
-void write_graph(Graph& g) {
+void print_graph(const Graph& g) {
+    const int width = 12;
+
+    // ===== Заголовок (номера столбцов) =====
+    std::cout << std::setw(4) << " "; // место под номер строки
+    for (int j = 0; j < g.size(); ++j) {
+        std::cout << std::setw(width) << j+1;
+    }
+    std::cout << "\n";
+
+    // ===== Матрица =====
+    for (int i = 0; i < g.size(); ++i) {
+        // номер строки
+        std::cout << std::setw(4) << i+1;
+
+        for (int j = 0; j < g.size(); ++j) {
+            std::stringstream ss;
+            ss << std::fixed << std::setprecision(2)
+               << g(i, j).value << ";" << g(i, j).flow;
+
+            std::cout << std::setw(width) << ss.str();
+        }
+        std::cout << "\n";
+    }
+}
+
+void write_graph(const Graph& g) {
     std::ofstream file(std::string(OUTPUT_DIR) + "output.txt");
     for(size_t i = 0; i != g.size(); ++i) {
         file << g[i].x << ';' << g[i].y << ';' << g[i].demand << ';';

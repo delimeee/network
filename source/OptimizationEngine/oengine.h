@@ -9,6 +9,7 @@ class OptimizationEngine {
     private:
         OptimizationModel model;
         GraphAnalyzer graph_analyzer;
+        bool status;
 
     public:
         OptimizationEngine(Graph&);

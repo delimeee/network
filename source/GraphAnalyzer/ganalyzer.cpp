@@ -5,28 +5,9 @@
 #include <queue>
 #include <cmath>
 #include <unordered_set>
-#define MAX_FLOW 1000.0
-#define ERROR 1.e-8
 
-bool check_surv_constraint(const Graph& g, const std::unordered_set<size_t>& sub_g) {
-    double sum_y = 0;
-    double sum_p = 0;
-    double sum_d = 0;
-    double max_p = -1;
-    for(auto& cur: sub_g) {
-        for(size_t i = 0; i != g.size(); ++i) {
-            if(g(cur, i).value > ERROR && !sub_g.contains(i)) {
-                sum_y += g(cur, i).value;
-                if(g[i].type == NodeType::PowerStation) {
-                    sum_p += g[i].demand;
-                    max_p = std::max(max_p, sum_p);
-                }
-                else if(g[i].type == NodeType::City) sum_d += g[i].demand;
-            }
-        }
-    }
-
-    return sum_y >= - ceil((sum_p - sum_d - max_p)) / MAX_FLOW;
+bool check_surv_constraint(const Graph& g) {
+    
 }
 
 void bfs(const Graph& g, int cur) {

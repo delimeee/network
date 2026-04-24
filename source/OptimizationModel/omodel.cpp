@@ -1,4 +1,5 @@
 #include "omodel.h"
+#include "../constants.h"
 #include <cmath>
 //#include <iostream> //DEBUG
 
@@ -12,7 +13,7 @@ OptimizationModel::OptimizationModel(Graph& g):
     f(env, graph.size()),
     demand(env, graph.size()),
     graph(g) {
-    // Costs
+    // Create Costs
     for (int i = 0; i < graph.size(); ++i) {
         cplex_cost[i] = IloNumArray(env, graph.size());
     }
@@ -22,7 +23,7 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Maximum possible flow
+    // Create Maximum possible flow
     for (int i = 0; i < graph.size(); ++i) {
         cplex_max_flow[i] = IloNumArray(env, graph.size());
     }
@@ -32,7 +33,7 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Structure vars y
+    // Create Structure vars y
     for(int i = 0; i != graph.size(); ++i) {
         y[i] = IloNumVarArray(env, graph.size(), 0.0, 1.0, ILOFLOAT);
         for(int j = 0; j != graph.size(); ++j) {
@@ -41,16 +42,16 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Flow vars f
+    // Create Flow vars f
     for(int i = 0; i != graph.size(); ++i) {
-        f[i] = IloNumVarArray(env, graph.size(), 0.0, 500.0, ILOFLOAT);
+        f[i] = IloNumVarArray(env, graph.size(), 0.0, MAX_FLOW, ILOFLOAT);
         for(int j = 0; j != graph.size(); ++j) {
             std::string var_name = "f" + std::to_string(i+1) + '_' + std::to_string(j+1);
             f[i][j].setName(var_name.c_str());
         }
     }
 
-    // Concumption/Production
+    // Create Concumption/Production
     for(size_t i = 0; i != graph.size(); ++i) {
         demand[i] = graph[i].demand;
     }
@@ -78,14 +79,14 @@ OptimizationModel::OptimizationModel(Graph& g):
         }
     }
 
-    // Input/Output constraint
+    // Input/Output amount constraint
     for(size_t k = 0; k != graph.size(); ++k) {
         IloExpr max_y(env);
         for(size_t j = 0; j != graph.size(); ++j) {
             if(k != j) max_y += y[k][j];
         }
 
-        // Add it only for directed y graph(non-symetric adjency matrix)
+        // Add it only for directed structure graph(non-symetric adjency matrix)
         // for(size_t j = 0; j != graph.size(); ++j) {
         //     if(k != j) max_y += y[j][k];
         // }
@@ -115,12 +116,6 @@ OptimizationModel::OptimizationModel(Graph& g):
             balance -= f[k][i];
         }
 
-        // Bad idea to include it
-        // if(graph[k].type == NodeType::PowerStation) {
-        //     model.add(balance == demand[k]);
-        // } else {
-        //     model.add(balance >= -demand[k]);
-        // }
         model.add(balance == demand[k]);
         // std::cout << balance << '=' << demand[k] << std::endl; // DEBUG
         balance.end();
