@@ -33,7 +33,7 @@ double rvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
     return -std::ceil((production - consumption - max_production) / MAX_FLOW);
 }
 
-std::pair<std::unordered_set<size_t>, double> bfs(Graph& g, size_t start) {
+std::optional<std::pair<std::unordered_set<size_t>, double>> bfs(Graph& g, size_t start) {
     std::queue<size_t> q;
     std::unordered_set<size_t> checked;
     checked.insert(start);
@@ -53,16 +53,16 @@ std::pair<std::unordered_set<size_t>, double> bfs(Graph& g, size_t start) {
             double lval = lvalue_constraint(g, checked);
             double rval = rvalue_constraint(g, checked);
             if(lval < rval) {
-                return {checked, rval};
+                return std::make_optional(std::pair{checked, rval});
             }
         }
     }
 
-    return {};
+    return std::nullopt;
 } 
 
 
-std::pair<std::unordered_set<size_t>, double> GraphAnalyzer::validate_solution(Graph& g) {
+std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::validate_solution(Graph& g) {
     std::unordered_set<size_t> ps;
     for(size_t i = 0; i != g.size(); ++i) {
         if(g[i].type == NodeType::PowerStation) {
@@ -71,10 +71,10 @@ std::pair<std::unordered_set<size_t>, double> GraphAnalyzer::validate_solution(G
     }
     for(auto& station: ps) {
         auto res = bfs(g, station);
-        if (!res.first.empty()) {
-            return res;
+        if (!res.has_value()) {
+            return res.value();
         }
     }
     
-    return {};
+    return std::nullopt;
 }

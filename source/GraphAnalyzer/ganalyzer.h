@@ -2,9 +2,10 @@
 #define GRAPH_ANALYZER_H
 #include "../Graph/graph.h"
 #include<unordered_set>
+#include<optional>
 
 class GraphAnalyzer{
-    std::pair<std::unordered_set<size_t>, double> validate_solution(Graph&);
+    std::optional<std::pair<std::unordered_set<size_t>, double>> validate_solution(Graph&);
 };
 
 #endif
