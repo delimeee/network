@@ -91,7 +91,14 @@ OptimizationModel::OptimizationModel(Graph& g):
         //     if(k != j) max_y += y[j][k];
         // }
         // std::cout << max_y << '=' << 2.0 << std::endl; // DEBUG
-        model.add(max_y == 2.0);
+        
+        //model.add(max_y == 2.0);
+
+        if(graph[k].type == NodeType::City) {
+            model.add(max_y == 2.0);
+        } else {
+            model.add(max_y >= 1.0);
+        }
         max_y.end();
     }
 
