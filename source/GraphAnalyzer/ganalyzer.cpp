@@ -1,45 +1,80 @@
 #include "ganalyzer.h"
 #include "../Graph/graph.h"
-#include <vector>
-#include <cstdint>
-#include <queue>
-#include <cmath>
-#include <unordered_set>
+#include "../constants.h"
+#include<queue>
+#include<vector>
+#include<cmath>
 
-bool check_surv_constraint(const Graph& g) {
-    
-}
-
-void bfs(const Graph& g, int cur) {
-    std::queue<size_t> q;
-    q.push(cur);
-
-    std::vector<size_t> d(g.size(), -1);
-    d[cur] = 0;
-
-    std::unordered_set<size_t> sub_graph;
-    sub_graph.insert(cur);
-
-    while(!q.empty()) {
-        size_t v = q.front();
-        q.pop();
+double lvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
+    double result = 0;
+    for(auto& v : sub_graph) {
         for(size_t i = 0; i != g.size(); ++i) {
-            if(!(g(v, i).value > ERROR && d[i] != -1)) {
-                continue;
-            }
-
-            q.push(i);
-            d[i] = d[v] + 1;
-            sub_graph.insert(i);
-
-            if(!check_surv_constraint(g, sub_graph)) {
-
+            if(g(i, v).value > ERROR && !sub_graph.contains(i)) {
+                result += g(i, v).value;
             }
         }
     }
+    return result;
 }
 
+double rvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
+    double production{0};
+    double consumption{0};
+    double max_production{0};
+    for(auto& v : sub_graph) {
+        if(g[v].type == NodeType::PowerStation) {
+            max_production = std::max(max_production, g[v].demand);
+            production += g[v].demand;
+        } else {
+            consumption += g[v].demand;
+        }
+    }
 
-bool GraphAnalyzer::is_survivable(Graph& g) {
+    return -std::ceil((production - consumption - max_production) / MAX_FLOW);
+}
+
+std::pair<std::unordered_set<size_t>, double> bfs(Graph& g, size_t start) {
+    std::queue<size_t> q;
+    std::unordered_set<size_t> checked;
+    checked.insert(start);
+    q.push(start);
+
+    while (!q.empty()) {
+        size_t v = q.front();
+        q.pop();
+        for (size_t i = 0; i != g.size(); ++i) {
+            if(g(v, i).value <= ERROR) {
+                continue;
+            } if(!checked.contains(i)) {
+                checked.insert(i);
+                q.push(i);
+            }
+
+            double lval = lvalue_constraint(g, checked);
+            double rval = rvalue_constraint(g, checked);
+            if(lval < rval) {
+                return {checked, rval};
+            }
+        }
+    }
+
+    return {};
+} 
+
+
+std::pair<std::unordered_set<size_t>, double> GraphAnalyzer::validate_solution(Graph& g) {
+    std::unordered_set<size_t> ps;
+    for(size_t i = 0; i != g.size(); ++i) {
+        if(g[i].type == NodeType::PowerStation) {
+            ps.insert(i);
+        }
+    }
+    for(auto& station: ps) {
+        auto res = bfs(g, station);
+        if (!res.first.empty()) {
+            return res;
+        }
+    }
     
+    return {};
 }

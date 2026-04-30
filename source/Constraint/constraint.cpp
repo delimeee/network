@@ -1,23 +1,12 @@
 #include "constraint.h"
 
-// class Constraint {
-//     public:
-//         virtual IloExpr load();
-// };
 
-// class ConnectivityConstraint: Constraint { 
+Constraint::~Constraint() {
+    constraint.end();
+}
+
+SurvivableConstraint::SurvivableConstraint(const std::unordered_set<size_t>, double) {
     
-//     public:
-//         ConnectivityConstraint(const std::vector<size_t>);
-// };
-
-// class SurvivableConstraint: Constraint { 
-//     public:
-//         SurvivableConstraint(const std::vector<size_t>);
-// };
-
-SurvivableConstraint::SurvivableConstraint(std::vector<size_t>& vars) {
-
 }
 
 SurvivableConstraint::load() {
