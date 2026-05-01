@@ -4,6 +4,7 @@
 #include<queue>
 #include<vector>
 #include<cmath>
+#include<iostream>
 
 double lvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
     double result = 0;
@@ -29,8 +30,11 @@ double rvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
             consumption += g[v].demand;
         }
     }
-
-    return -std::ceil((production - consumption - max_production) / MAX_FLOW);
+    double numerator = production - consumption - max_production;
+    if(numerator < 0.0) {
+        return std::ceil(-numerator / MAX_FLOW);
+    }
+    return -std::ceil(numerator / MAX_FLOW);
 }
 
 std::optional<std::pair<std::unordered_set<size_t>, double>> bfs(Graph& g, size_t start) {
@@ -52,7 +56,8 @@ std::optional<std::pair<std::unordered_set<size_t>, double>> bfs(Graph& g, size_
 
             double lval = lvalue_constraint(g, checked);
             double rval = rvalue_constraint(g, checked);
-            if(lval < rval) {
+            std::cout << lval << ' ' << rval << '\n';
+            if(std::abs(lval - rval) < ERROR) { // ИСПРАВИТЬ
                 return std::make_optional(std::pair{checked, rval});
             }
         }
@@ -71,8 +76,8 @@ std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::vali
     }
     for(auto& station: ps) {
         auto res = bfs(g, station);
-        if (!res.has_value()) {
-            return res.value();
+        if (res.has_value()) {
+            return res;
         }
     }
     

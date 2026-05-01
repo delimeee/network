@@ -10,11 +10,13 @@ class OptimizationEngine {
         OptimizationModel model;
         GraphAnalyzer graph_analyzer;
         bool status;
+        size_t iterations;
 
     public:
         OptimizationEngine(Graph&);
         void run();
         Graph get_solution();
+        size_t get_iterations();
 };
 
 #endif

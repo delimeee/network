@@ -1,7 +1,7 @@
 #include "omodel.h"
 #include "../constants.h"
 #include <cmath>
-//#include <iostream> //DEBUG
+#include <iostream> //DEBUG
 
 OptimizationModel::OptimizationModel(Graph& g):
     env{},
@@ -170,6 +170,21 @@ Graph& OptimizationModel::get_solution() {
     return graph;
 }
 
-void OptimizationModel::add_constraint(Constraint& c) {
-    model.add(c.load());
+void OptimizationModel::add_survivable_constraint(const std::unordered_set<size_t>& nodes, double rvalue) {
+    IloExpr surv_expr(env);
+    for(auto& v: nodes) {
+        for(size_t i = 0; i != graph.size(); ++i) {
+            if(!nodes.contains(i)) {
+                surv_expr += y[i][v];
+                if(graph(i, v).value > ERROR) {
+                    std::cout << "\t" << i + 1 << '\n';
+                }
+            }
+        }
+        std::cout << v + 1 << '\n';
+    }
+    std::cout << "ADDED CONSTRAINT\n";
+    std::cout << surv_expr << rvalue << '\n';
+    model.add(surv_expr >= rvalue);
+    surv_expr.end();
 }

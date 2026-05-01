@@ -1,7 +1,7 @@
 #ifndef OPT_MODEL_H
 #define OPT_MODEL_H
 #include <ilcplex/ilocplex.h>
-#include "../Constraint/constraint.h"
+#include <unordered_set>
 #include "../Graph/graph.h"
 
 class OptimizationModel {
@@ -24,7 +24,7 @@ class OptimizationModel {
         OptimizationModel& operator=(OptimizationModel) = delete;
 
         Graph& get_solution();
-        void add_constraint(Constraint&);
+        void add_survivable_constraint(const std::unordered_set<size_t>&, double);
         IloModel& get_model();
         bool solve();
 };

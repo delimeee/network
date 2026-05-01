@@ -39,6 +39,8 @@ int main() {
     OptimizationEngine eng(graph);
     eng.run();
 
+    std::cout << "Пройдено итераций: " << eng.get_iterations() << '\n'; 
+
     Graph g = eng.get_solution();
     if(g.size() == 0) {
         std::cout << "Задача не решилась" << std::endl;

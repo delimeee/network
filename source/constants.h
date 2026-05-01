@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 #define OUTPUT_DIR "output/"
-#define MAX_FLOW 150.0
+#define MAX_FLOW 750.0
 #define ERROR 1.e-8
 
 #endif

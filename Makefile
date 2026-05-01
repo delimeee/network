@@ -76,8 +76,8 @@ run :
 	cat ./input/main.txt | ./build/network
 	python draw.py
 
-network : network.o graph.o omodel.o oengine.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/graph.o $(OBJ)/network.o  $(OBJ)/omodel.o $(OBJ)/oengine.o -o $(BUILD)/network $(CCLNFLAGS)
+network : network.o graph.o omodel.o oengine.o oanalyzer.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/oanalyzer.o $(OBJ)/graph.o $(OBJ)/network.o  $(OBJ)/omodel.o $(OBJ)/oengine.o -o $(BUILD)/network $(CCLNFLAGS)
 
 network.o : $(SRC)/network.cpp
 	$(CCC) -std=c++20 -c $(CCFLAGS) $(SRC)/network.cpp -o $(OBJ)/network.o
