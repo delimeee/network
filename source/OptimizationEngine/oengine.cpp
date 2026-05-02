@@ -25,12 +25,6 @@ void OptimizationEngine::run() {
     }
 }
 
-// void OptimizationEngine::run() {
-//     if(!(status = model.solve())) {
-//         return;
-//     }
-// }
-
 Graph OptimizationEngine::get_solution() {
     if(status) {
         return model.get_solution();

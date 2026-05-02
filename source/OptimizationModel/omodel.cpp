@@ -176,15 +176,11 @@ void OptimizationModel::add_survivable_constraint(const std::unordered_set<size_
         for(size_t i = 0; i != graph.size(); ++i) {
             if(!nodes.contains(i)) {
                 surv_expr += y[i][v];
-                if(graph(i, v).value > ERROR) {
-                    std::cout << "\t" << i + 1 << '\n';
-                }
             }
         }
-        std::cout << v + 1 << '\n';
     }
-    std::cout << "ADDED CONSTRAINT\n";
-    std::cout << surv_expr << rvalue << '\n';
+    // std::cout << "ADDED CONSTRAINT\n";
+    // std::cout << surv_expr << rvalue << '\n';
     model.add(surv_expr >= rvalue);
     surv_expr.end();
 }

@@ -56,8 +56,15 @@ std::optional<std::pair<std::unordered_set<size_t>, double>> bfs(Graph& g, size_
 
             double lval = lvalue_constraint(g, checked);
             double rval = rvalue_constraint(g, checked);
-            std::cout << lval << ' ' << rval << '\n';
-            if(std::abs(lval - rval) < ERROR) { // ИСПРАВИТЬ
+            
+            // std::cout << lval << ' ' << rval << '\n'; //DEBUG
+            // for(auto& v: checked) {
+            //     std::cout << v << '\n';
+            // }
+            if(std::abs(lval - rval) < ERROR) {
+                continue;
+            }
+            if(lval < rval) {
                 return std::make_optional(std::pair{checked, rval});
             }
         }
