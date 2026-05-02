@@ -153,7 +153,10 @@ OptimizationModel::~OptimizationModel() {
 
 bool OptimizationModel::solve() {
     cplex.extract(model);
-    return cplex.solve();
+    bool status = cplex.solve();
+    std::cout << "Solution status: " << cplex.getStatus() << std::endl;
+    if(status) std::cout << "Objective value: " << cplex.getObjValue() << std::endl;
+    return status;
 }
 
 IloModel& OptimizationModel::get_model() {
@@ -173,14 +176,15 @@ Graph& OptimizationModel::get_solution() {
 void OptimizationModel::add_survivable_constraint(const std::unordered_set<size_t>& nodes, double rvalue) {
     IloExpr surv_expr(env);
     for(auto& v: nodes) {
+        std::cout << v + 1 << '\n';
         for(size_t i = 0; i != graph.size(); ++i) {
             if(!nodes.contains(i)) {
                 surv_expr += y[i][v];
             }
         }
     }
-    // std::cout << "ADDED CONSTRAINT\n";
-    // std::cout << surv_expr << rvalue << '\n';
+    std::cout << "ADDED CONSTRAINT\n";
+    std::cout << surv_expr << rvalue << '\n';
     model.add(surv_expr >= rvalue);
     surv_expr.end();
 }
