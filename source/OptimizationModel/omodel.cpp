@@ -176,15 +176,24 @@ Graph& OptimizationModel::get_solution() {
 void OptimizationModel::add_survivable_constraint(const std::unordered_set<size_t>& nodes, double rvalue) {
     IloExpr surv_expr(env);
     for(auto& v: nodes) {
-        std::cout << v + 1 << '\n';
+        // std::cout << v + 1 << '\n';
         for(size_t i = 0; i != graph.size(); ++i) {
             if(!nodes.contains(i)) {
                 surv_expr += y[i][v];
             }
         }
     }
-    std::cout << "ADDED CONSTRAINT\n";
-    std::cout << surv_expr << rvalue << '\n';
+    // std::cout << "ADDED CONSTRAINT\n";
+    // std::cout << surv_expr << rvalue << '\n';
     model.add(surv_expr >= rvalue);
     surv_expr.end();
+}
+
+void OptimizationModel::add_survivable_constraint(
+    const std::vector<std::pair<std::unordered_set<size_t>, double>>& constrains
+) {
+    for(auto& constraint: constrains) {
+        auto& [nodes, rvalue] = constraint;
+        OptimizationModel::add_survivable_constraint(nodes, rvalue);
+    }
 }

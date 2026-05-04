@@ -25,6 +25,9 @@ class OptimizationModel {
 
         Graph& get_solution();
         void add_survivable_constraint(const std::unordered_set<size_t>&, double);
+        void add_survivable_constraint(
+            const std::vector<std::pair<std::unordered_set<size_t>, double>>&
+        );
         IloModel& get_model();
         bool solve();
 };

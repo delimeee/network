@@ -62,6 +62,9 @@ SRC = ./source
 LIB = ./library
 HEAD = ./header
 
+STD_FLAGS = -std=c++23 -c
+OBJ_FLAGS = $(STD_FLAGS) $(CCFLAGS)
+
 all : init network
 
 clean : 
@@ -73,26 +76,26 @@ init :
 	mkdir -p $(OBJ) $(SRC) $(BUILD)
 
 run :
-	cat ./input/25_nodes.txt | ./build/network
+	cat ./input/main.txt | ./build/network
 	python draw.py
 
 network : network.o graph.o omodel.o oengine.o oanalyzer.o
 	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/oanalyzer.o $(OBJ)/graph.o $(OBJ)/network.o  $(OBJ)/omodel.o $(OBJ)/oengine.o -o $(BUILD)/network $(CCLNFLAGS)
 
 network.o : $(SRC)/network.cpp
-	$(CCC) -std=c++20 -c $(CCFLAGS) $(SRC)/network.cpp -o $(OBJ)/network.o
+	$(CCC) $(OBJ_FLAGS) $(SRC)/network.cpp -o $(OBJ)/network.o
 
 graph.o: $(SRC)/Graph/graph.cpp
-	$(CCC) -std=c++20 -c $(SRC)/Graph/graph.cpp -o $(OBJ)/graph.o
+	$(CCC) $(STD_FLAGS) $(SRC)/Graph/graph.cpp -o $(OBJ)/graph.o
 
 omodel.o: $(SRC)/OptimizationModel/omodel.cpp
-	$(CCC) -std=c++20 -c $(CCFLAGS) $(SRC)/OptimizationModel/omodel.cpp -o $(OBJ)/omodel.o
+	$(CCC) $(OBJ_FLAGS) $(SRC)/OptimizationModel/omodel.cpp -o $(OBJ)/omodel.o
 
 oengine.o: $(SRC)/OptimizationEngine/oengine.cpp
-	$(CCC) -std=c++20 -c $(CCFLAGS) $(SRC)/OptimizationEngine/oengine.cpp -o $(OBJ)/oengine.o
+	$(CCC) $(OBJ_FLAGS) $(SRC)/OptimizationEngine/oengine.cpp -o $(OBJ)/oengine.o
 
 oanalyzer.o: $(SRC)/GraphAnalyzer/ganalyzer.cpp
-	$(CCC) -std=c++20 -c $(CCFLAGS) $(SRC)/GraphAnalyzer/ganalyzer.cpp -o $(OBJ)/oanalyzer.o
+	$(CCC) $(OBJ_FLAGS) $(SRC)/GraphAnalyzer/ganalyzer.cpp -o $(OBJ)/oanalyzer.o
 
 
 test:
