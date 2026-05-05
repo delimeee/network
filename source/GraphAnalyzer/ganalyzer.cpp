@@ -202,66 +202,194 @@ std::vector<std::pair<std::unordered_set<size_t>, double>> many_dfs(
     return result;
 }
 
+std::optional<std::pair<std::unordered_set<size_t>, double>> dfs(
+    Graph& g,
+    size_t cur,
+    std::unordered_set<size_t>& previous,
+    size_t len,
+    bool many_ps=true
+) {
 
-std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::validate_solution(Graph& g) {
-    std::unordered_set<size_t> ps;
-    for(size_t i = 0; i != g.size(); ++i) {
-        if(g[i].type == NodeType::PowerStation) {
-            ps.insert(i);
-        }
-    }
-    for(auto& station: ps) {
-        std::unordered_set<size_t> checked;
-        auto res = dfs(g, station, checked);
-        if (res.has_value()) {
+    previous.insert(cur);
+
+    if(previous.size() == len) {
+        auto res = heuristic(g, previous);
+        if(res.has_value()) {
             return res;
         }
-    }
-    for(auto& station: ps) {
-        auto res = bfs(g, station, false);
-        if (res.has_value()) {
-            return res;
+        std::cout << "cur: " << cur << ' ' << previous.size() << ' ' << len << '\n';
+    } else if(previous.size() < len) {
+        for(size_t i = 0; i != g.size(); ++i) {
+            if(
+                !previous.contains(i) &&
+                g(cur, i).value > ERROR &&
+                (many_ps || g[i].type == NodeType::City)
+            ) {
+                auto res = dfs(g, i, previous, len, many_ps);
+                if(res.has_value()) {
+                    previous.erase(cur);
+                    return res;
+                }
+            }
         }
     }
-    for(auto& station: ps) {
-        auto res = bfs(g, station, true);
-        if (res.has_value()) {
-            return res;
+
+    previous.erase(cur);
+    return std::nullopt;
+}
+
+std::optional<std::pair<std::unordered_set<size_t>, double>> bfs(
+    Graph& g,
+    size_t start,
+    size_t len,
+    bool many_ps=true
+) {
+    std::queue<size_t> q;
+    std::unordered_set<size_t> checked;
+    checked.insert(start);
+    q.push(start);
+
+    while (!q.empty()) {
+        size_t v = q.front();
+        q.pop();
+        for (size_t i = 0; i != g.size(); ++i) {
+            if(
+                g(v, i).value <= ERROR ||
+                (!many_ps && g[i].type == NodeType::PowerStation)
+            ) {
+                continue;
+            } if(!checked.contains(i)) {
+                checked.insert(i);
+                q.push(i);
+            }
+
+            std::unordered_set<size_t> previous;
+
+            std::cout << "Started dfs with len: " << len << '\n';
+            auto res = dfs(g, i, previous, len, true);
+            if(res.has_value()) {
+                return res;
+            }
         }
     }
-    for(auto& station: ps) {
-        std::unordered_set<size_t> checked;
-        auto res = dfs(g, station, checked);
-        if (res.has_value()) {
-            return res;
+
+    return std::nullopt;
+}
+
+std::optional<std::pair<std::unordered_set<size_t>, double>> all_connected_subgraph(Graph& g) {
+    for(size_t len = 1; len != g.size() + 1; ++len) {
+        for(size_t start = 0; start != g.size(); ++start) {
+            auto res = bfs(g, start, len, true);
+            if(res.has_value()) {
+                return res;
+            }
         }
     }
     return std::nullopt;
 }
 
+std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::validate_solution(Graph& g) {
+    // Power stations only
+    // std::unordered_set<size_t> ps;
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     if(g[i].type == NodeType::PowerStation) {
+    //         ps.insert(i);
+    //     }
+    // }
+    // for(auto& station: ps) {
+    //     std::unordered_set<size_t> checked;
+    //     auto res = dfs(g, station, checked, false);
+    //     if (res.has_value()) {
+    //         return res;
+    //     }
+    // }
+
+    // for(auto& station: ps) {
+    //     auto res = bfs(g, station, false);
+    //     if(res.has_value()) {
+    //         return res;
+    //     }
+    // }
+
+    // for(auto& station: ps) {
+    //     auto res = bfs(g, station);
+    //     if (res.has_value()) {
+    //         return res;
+    //     }
+    // }
+
+    // for(auto& station: ps) {
+    //     std::unordered_set<size_t> checked;
+    //     auto res = dfs(g, station, checked);
+    //     if (res.has_value()) {
+    //         return res;
+    //     }
+    // }
+
+    // Every node
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     std::unordered_set<size_t> checked;
+    //     auto res = dfs(g, i, checked, false);
+    //     if (res.has_value()) {
+    //         return res;
+    //     }
+    // }
+
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     std::unordered_set<size_t> checked;
+    //     auto res = dfs(g, i, checked);
+    //     if (res.has_value()) {
+    //         return res;
+    //     }
+    // }
+
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     auto res = bfs(g, i, false);
+    //     if (res.has_value()) {
+    //         return res;
+    //     }
+    // }
+
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     auto res = bfs(g, i, true);
+    //     if (res.has_value()) {
+    //         return res;
+    //     }
+    // }
+    
+    // return std::nullopt;
+    return all_connected_subgraph(g);
+}
+
 std::vector<std::pair<std::unordered_set<size_t>, double>> 
 GraphAnalyzer::many_validate(Graph& g) {
+    std::vector<std::pair<std::unordered_set<size_t>, double>> constrains;
+    //Power stations only
     std::unordered_set<size_t> ps;
     for(size_t i = 0; i != g.size(); ++i) {
         if(g[i].type == NodeType::PowerStation) {
             ps.insert(i);
         }
     }
-    std::vector<std::pair<std::unordered_set<size_t>, double>> constrains;
-    for(auto& station: ps) {
-        std::unordered_set<size_t> checked;
-        constrains.append_range(many_dfs(g, station, checked));
-    }
-    for(auto& station: ps) {
-        std::unordered_set<size_t> checked;
-        constrains.append_range(many_dfs(g, station, checked, false));
-    }
-    for(auto& station: ps) {
-        constrains.append_range(many_bfs(g, station));
-    }
-    for(auto& station: ps) {
-        constrains.append_range(many_bfs(g, station, false));
-    }
+    
+    // Every node
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     std::unordered_set<size_t> checked;
+    //     constrains.append_range(many_dfs(g, i, checked));
+    // }
+
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     std::unordered_set<size_t> checked;
+    //     constrains.append_range(many_dfs(g, i, checked, false));
+    // }
+
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     constrains.append_range(many_bfs(g, i));
+    // }
+
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     constrains.append_range(many_bfs(g, i, false));
+    // }
 
     return constrains;
 }

@@ -25,7 +25,7 @@ OptimizationEngine::OptimizationEngine(Graph& g): model{g}, status{false}, itera
 //     }
 // }
 
-// Many constraints
+// Packages
 void OptimizationEngine::run() {
     if(!(status = model.solve())) {
         return;

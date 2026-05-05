@@ -96,15 +96,3 @@ oengine.o: $(SRC)/OptimizationEngine/oengine.cpp
 
 oanalyzer.o: $(SRC)/GraphAnalyzer/ganalyzer.cpp
 	$(CCC) $(OBJ_FLAGS) $(SRC)/GraphAnalyzer/ganalyzer.cpp -o $(OBJ)/oanalyzer.o
-
-
-test:
-	cat ./input/test1.txt | ./build/network
-	cat ./input/test2.txt | ./build/network
-
-
-
-blend: blend.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) -o blend blend.o $(CCLNFLAGS)
-blend.o: $(EXSRCCPP)/blend.cpp
-	$(CCC) -c $(CCFLAGS) $(EXSRCCPP)/blend.cpp -o blend.o
