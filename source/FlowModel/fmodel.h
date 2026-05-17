@@ -8,19 +8,20 @@
 
 class FlowModel {
     IloEnv env;
-    IloEnv model;
+    IloModel model;
     IloCplex cplex;
-    IloArray<IloNumVarArray> f;
     Graph graph;
+    IloArray<IloNumVarArray> f;
 
     public:
-        FlowModel(Graph& g, std::unordered_set<size_t> nodes);
+        FlowModel(const Graph& g, const std::unordered_set<size_t> nodes);
         ~FlowModel();
-        FlowModel FlowModel(const FlowModel) = delete;
-        FlowModel& operator=(const FlowModel&) = delete;
-        Graph& get_solution();
+        FlowModel(const FlowModel&) = delete;
+        FlowModel& operator=(FlowModel) = delete;
+
+        Graph get_solution();
         bool solve();
 
-}
+};
 
 #endif

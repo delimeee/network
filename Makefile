@@ -79,8 +79,8 @@ run :
 	cat ./input/main.txt | ./build/network
 	python draw.py
 
-network : network.o graph.o omodel.o oengine.o oanalyzer.o
-	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/oanalyzer.o $(OBJ)/graph.o $(OBJ)/network.o  $(OBJ)/omodel.o $(OBJ)/oengine.o -o $(BUILD)/network $(CCLNFLAGS)
+network : network.o graph.o omodel.o oengine.o oanalyzer.o fmodel.o
+	$(CCC) $(CCFLAGS) $(CCLNDIRS) $(OBJ)/oanalyzer.o $(OBJ)/graph.o $(OBJ)/network.o  $(OBJ)/omodel.o $(OBJ)/oengine.o $(OBJ)/fmodel.o -o $(BUILD)/network $(CCLNFLAGS)
 
 network.o : $(SRC)/network.cpp
 	$(CCC) $(OBJ_FLAGS) $(SRC)/network.cpp -o $(OBJ)/network.o
@@ -96,3 +96,6 @@ oengine.o: $(SRC)/OptimizationEngine/oengine.cpp
 
 oanalyzer.o: $(SRC)/GraphAnalyzer/ganalyzer.cpp
 	$(CCC) $(OBJ_FLAGS) $(SRC)/GraphAnalyzer/ganalyzer.cpp -o $(OBJ)/oanalyzer.o
+
+fmodel.o: $(SRC)/FlowModel/fmodel.cpp
+	$(CCC) $(OBJ_FLAGS) $(SRC)/FlowModel/fmodel.cpp -o $(OBJ)/fmodel.o

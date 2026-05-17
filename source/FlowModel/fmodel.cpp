@@ -1,11 +1,12 @@
 #include "fmodel.h"
+#include "../constants.h"
 
-FlowModel::FlowModel(Graph& g, std::unordered_set<size_t> nodes):
+FlowModel::FlowModel(const Graph& g, const std::unordered_set<size_t> nodes):
     env{},
     model{env},
     cplex{env},
-    f(env, graph.size()),
-    graph{g}
+    graph{g},
+    f(env, graph.size())
 {
     // Objective function
     model.add(IloMinimize(env, 1));
@@ -22,11 +23,16 @@ FlowModel::FlowModel(Graph& g, std::unordered_set<size_t> nodes):
     // Max flow
     for(size_t i = 0; i != graph.size(); ++i) {
         for(size_t j = 0; j != graph.size(); ++j) {
+            if(nodes.contains(i) || nodes.contains(j)) {
+                model.add(f[i][j] <= g(i, j).max_flow * 0);
+                continue;
+            }
+
             model.add(f[i][j] <= g(i, j).max_flow * g(i, j).value);
         }
     }
     
-    // 
+    // Kirchhof
     for(size_t k = 0; k != graph.size(); ++k) {
         if(graph[k].type == NodeType::PowerStation) {
             continue;
@@ -59,29 +65,30 @@ FlowModel::FlowModel(Graph& g, std::unordered_set<size_t> nodes):
     }
 
     // Exclude a node
-    for(size_t i = 0; i != graph.size() - 1; ++i) {
-        if(nodes.contains(i)) {
-           continue; 
-        }
+    // for(size_t i = 0; i != graph.size(); ++i) {
+    //     if(!nodes.contains(i)) {
+    //        continue; 
+    //     }
 
-        for(size_t j = i + 1; j != graph.size(); ++j) {
-            model.add(f[i][j] == 0.0);
-            model.add(f[j][i] == 0.0);
-        }
-    }
+    //     for(size_t j = 0; j != graph.size(); ++j) {
+    //         model.add(f[i][j] == 0.0);
+    //         model.add(f[j][i] == 0.0);
+    //     }
+    // }
 }
 
-FlowModel::solve() {
+bool FlowModel::solve() {
     cplex.extract(model);
     return cplex.solve();
 }
 
-FlowModel::get_solution() {
+Graph FlowModel::get_solution() {
     for(size_t i = 0; i != graph.size(); ++i) {
         for(size_t j = 0; j != graph.size(); ++j) {
             graph(i, j).flow = cplex.getValue(f[i][j]);
         }
     }
+    return graph;
 }
 
 FlowModel::~FlowModel() {

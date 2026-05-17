@@ -46,6 +46,12 @@ int main() {
         std::cout << "Задача не решилась" << std::endl;
         return 0;
     }
+
+    if(eng.get_survivable_network()) {
+        std::cout << "Решение надёжное" << std::endl;
+    } else {
+        std::cout << "Решение НЕНАДЁЖНОЕ" << std::endl;
+    }
     print_graph(g);
     write_graph(g);    
 }

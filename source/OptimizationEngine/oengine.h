@@ -9,7 +9,8 @@ class OptimizationEngine {
     private:
         OptimizationModel model;
         GraphAnalyzer graph_analyzer;
-        bool status;
+        bool solve_status;
+        bool survivable_network;
         size_t iterations;
 
     public:
@@ -17,6 +18,7 @@ class OptimizationEngine {
         void run();
         Graph get_solution();
         size_t get_iterations();
+        bool get_survivable_network();
 };
 
 #endif

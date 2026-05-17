@@ -1,10 +1,12 @@
 #include "ganalyzer.h"
 #include "../Graph/graph.h"
 #include "../constants.h"
+#include "../FlowModel/fmodel.h"
 #include<queue>
 #include<vector>
 #include<cmath>
 #include<iostream>
+#include<algorithm>
 
 double lvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
     double result = 0;
@@ -202,7 +204,7 @@ std::vector<std::pair<std::unordered_set<size_t>, double>> many_dfs(
     return result;
 }
 
-std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::validate_solution(Graph& g) {
+std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::find_violation(Graph& g) {
     // Power stations only
     std::unordered_set<size_t> ps;
     for(size_t i = 0; i != g.size(); ++i) {
@@ -274,16 +276,86 @@ std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::vali
     return std::nullopt;
 }
 
-std::vector<std::pair<std::unordered_set<size_t>, double>> 
-GraphAnalyzer::many_validate(Graph& g) {
-    std::vector<std::pair<std::unordered_set<size_t>, double>> constrains;
-    //Power stations only
-    std::unordered_set<size_t> ps;
+double calc_connectivity(
+    Graph& g,
+    std::unordered_set<size_t> subset,
+    size_t cur 
+) {
+    if(subset.contains(cur)) {
+        return 0.0;
+    }
+
+    double result{0.0};
     for(size_t i = 0; i != g.size(); ++i) {
-        if(g[i].type == NodeType::PowerStation) {
-            ps.insert(i);
+        if(subset.contains(i) && g(cur, i).value >= ERROR) {
+            result += g(cur, i).value;
         }
     }
+
+    return result;
+}
+
+std::vector<std::pair<std::unordered_set<size_t>, double>> greedy_best_first_search(
+    Graph& g,
+    size_t start
+) {
+    std::vector<std::pair<std::unordered_set<size_t>, double>> result;
+
+    std::unordered_set<size_t> subset{start};
+    std::vector<std::pair<size_t, double>> connectivity;
+    connectivity.reserve(g.size() - 1);
+    for(size_t i = 0; i != g.size(); ++i) {
+        if(i != start) {
+            connectivity.emplace_back(i, calc_connectivity(g, subset, i));
+        }  
+    }
+
+    auto res = heuristic(g, subset);
+        if(res.has_value()) {
+            result.push_back(res.value());
+        }
+    
+    // std::cout << "Current node:" << ' ' << start << '\n';
+    while (subset.size() < g.size()) {
+        for(auto& [num, conn]: connectivity) {
+            conn = calc_connectivity(g, subset, num);
+        }
+        std::sort(connectivity.begin(), connectivity.end(), 
+            [](const auto& a, const auto& b) { return a.second < b.second; });
+        
+        // for(const auto& [num, val]: connectivity) {
+        //     std::cout << num + 1 << ':' << val << ' ';
+        // }
+        // std::cout << '\n';
+
+        auto [best, best_val] = connectivity.back();
+        subset.insert(best);
+        connectivity.pop_back();
+
+        auto res = heuristic(g, subset);
+        if(res.has_value()) {
+            result.push_back(res.value());
+        }
+
+        // for(const auto& node: subset) {
+        //     std::cout << node + 1 << ' ';
+        // }
+        // std::cout << '\n';
+    }
+
+    return result;
+}
+
+std::vector<std::pair<std::unordered_set<size_t>, double>> 
+GraphAnalyzer::find_all_violations(Graph& g) {
+    std::vector<std::pair<std::unordered_set<size_t>, double>> constrains;
+    //Power stations only
+    // std::unordered_set<size_t> ps;
+    // for(size_t i = 0; i != g.size(); ++i) {
+    //     if(g[i].type == NodeType::PowerStation) {
+    //         ps.insert(i);
+    //     }
+    // }
     
     // Every node
     // for(size_t i = 0; i != g.size(); ++i) {
@@ -304,5 +376,26 @@ GraphAnalyzer::many_validate(Graph& g) {
     //     constrains.append_range(many_bfs(g, i, false));
     // }
 
+    //New search
+    for(size_t i = 0; i != g.size(); ++i) {
+        constrains.append_range(greedy_best_first_search(g, i));
+    }
+
     return constrains;
+}
+
+bool GraphAnalyzer::validate_solution(const Graph& g) {
+    std::cout << "Валидируем решение" << '\n';
+    for(size_t i = 0; i != g.size(); ++i) {
+        if(g[i].type == NodeType::PowerStation) {
+            std::cout << "Удаляем вершину: " << i + 1<< '\n';
+            FlowModel model(g, {i});
+            if(!model.solve()) {
+                return false;
+            }
+        }
+        //std::cout << "Валидируем решение" << '\n';
+    }
+
+    return true;
 }

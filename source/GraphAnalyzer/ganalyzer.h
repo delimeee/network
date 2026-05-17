@@ -6,8 +6,9 @@
 
 class GraphAnalyzer{
     public:
-        std::optional<std::pair<std::unordered_set<size_t>, double>> validate_solution(Graph&);
-        std::vector<std::pair<std::unordered_set<size_t>, double>> many_validate(Graph& g);
+        std::optional<std::pair<std::unordered_set<size_t>, double>> find_violation(Graph&);
+        std::vector<std::pair<std::unordered_set<size_t>, double>> find_all_violations(Graph& g);
+        bool validate_solution(const Graph& g);
 };
 
 #endif
