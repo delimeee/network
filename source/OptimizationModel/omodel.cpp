@@ -153,6 +153,7 @@ OptimizationModel::~OptimizationModel() {
 
 bool OptimizationModel::solve() {
     cplex.extract(model);
+    cplex.exportModel("model.lp");
     bool status = cplex.solve();
     std::cout << "Solution status: " << cplex.getStatus() << std::endl;
     if(status) std::cout << "Objective value: " << cplex.getObjValue() << std::endl;

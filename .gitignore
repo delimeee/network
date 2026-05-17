@@ -3,3 +3,5 @@ object/*
 articles/*
 source/cheat_sheet.cpp
 *.
+*.lp
+EXACT_SOLUTION

@@ -4,6 +4,8 @@
 #include "OptimizationEngine/oengine.h"
 #include "Graph/graph.h"
 #include "constants.h"
+#include "ExactModel/solver_hta.h"
+#include "GraphAnalyzer/ganalyzer.h"
 #include <fstream>
 
 void write_graph(const Graph& g);
@@ -53,7 +55,16 @@ int main() {
         std::cout << "Решение НЕНАДЁЖНОЕ" << std::endl;
     }
     print_graph(g);
-    write_graph(g);    
+    write_graph(g);
+    
+    //Точное решение
+    SolverMT exact_solver(graph);
+    exact_solver.solve();
+
+    Graph exact_g = exact_solver.get_solution();
+    std::cout << "Точное решение" << '\n';
+    print_graph(exact_g);
+    write_graph(exact_g);
 }
 
 void print_graph(const Graph& g) {
