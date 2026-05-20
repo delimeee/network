@@ -69,10 +69,7 @@ OptimizationModel::OptimizationModel(Graph& g):
                 return sqrt((n1.x - n2.x) * (n1.x - n2.x) + (n1.y - n2.y) * (n1.y - n2.y));
             }(graph[i], graph[j]);
             
-            // Так как структура неориентированная, берем суммарную стоимость в обе стороны
-            double total_edge_cost = cplex_cost[i][j] + cplex_cost[j][i]; 
-            
-            obj += total_edge_cost * dist * y[i][j];
+            obj += cplex_cost[i][j] * dist * y[i][j];
         }
     }
     model.add(IloMinimize(env, obj));
