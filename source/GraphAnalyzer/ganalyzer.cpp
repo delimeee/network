@@ -323,7 +323,7 @@ std::vector<std::pair<std::unordered_set<size_t>, double>> greedy_best_first_sea
         std::sort(connectivity.begin(), connectivity.end(), 
         [](const auto& a, const auto& b) {
             // Если связность разная — сортируем по ней (по возрастанию)
-            if (std::abs(a.second - b.second) > 1e-9) { 
+            if (std::abs(a.second - b.second) > ERROR) { 
                 return a.second < b.second;
             }
             // Если связность одинаковая — форсируем строгий порядок по ID узла
