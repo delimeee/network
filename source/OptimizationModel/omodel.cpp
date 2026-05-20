@@ -58,8 +58,8 @@ OptimizationModel::OptimizationModel(Graph& g):
 
     // Objective function
     IloExpr obj(env);
-    for(int i = 0; i != graph.size(); ++i) {
-        for(int j = 0; j != graph.size(); ++j) {
+    for(int i = 0; i != graph.size() - 1; ++i) {
+        for(int j = i + 1; j != graph.size(); ++j) {
             obj += cplex_cost[i][j] * y[i][j] * [](const Node& n1, const Node& n2){
                 return sqrt((n1.x - n2.x) * (n1.x - n2.x) + (n1.y - n2.y) * (n1.y - n2.y));
             }(graph[i], graph[j]);
