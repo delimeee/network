@@ -321,8 +321,14 @@ std::vector<std::pair<std::unordered_set<size_t>, double>> greedy_best_first_sea
             conn = calc_connectivity(g, subset, num);
         }
         std::sort(connectivity.begin(), connectivity.end(), 
-            [](const auto& a, const auto& b) { return a.second < b.second; });
-        
+        [](const auto& a, const auto& b) {
+            // Если связность разная — сортируем по ней (по возрастанию)
+            if (std::abs(a.second - b.second) > 1e-9) { 
+                return a.second < b.second;
+            }
+            // Если связность одинаковая — форсируем строгий порядок по ID узла
+            return a.first < b.first; 
+        });
         // for(const auto& [num, val]: connectivity) {
         //     std::cout << num + 1 << ':' << val << ' ';
         // }
