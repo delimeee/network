@@ -35,8 +35,8 @@ OptimizationModel::OptimizationModel(Graph& g):
 
     // Create Structure vars y
     for(int i = 0; i < graph.size(); ++i) {
-        y[i] = IloNumVarArray(env, graph.size()); // Создаем пустой массив нужного размера
-        for(int j = i + 1; j < graph.size(); ++j) {
+        y[i] = IloNumVarArray(env, i + 1); // Создаем пустой массив нужного размера
+        for(int j = 0; j < i + 1; ++j) {
             std::string var_name = "y" + std::to_string(i+1) + '_' + std::to_string(j+1);
             y[i][j] = IloNumVar(env, 0.0, 1.0, ILOFLOAT, var_name.c_str());
         }
@@ -44,7 +44,7 @@ OptimizationModel::OptimizationModel(Graph& g):
 
     auto get_y = [&](size_t i, size_t j) -> IloNumVar {
         if (i == j) return IloNumVar(); // Для y[i][i] вернет пустой/нулевой объект, если нужно
-        return (i < j) ? y[i][j] : y[j][i];
+        return (i > j) ? y[i][j] : y[j][i];
     };
 
     // Create Flow vars f
@@ -69,7 +69,7 @@ OptimizationModel::OptimizationModel(Graph& g):
                 return sqrt((n1.x - n2.x) * (n1.x - n2.x) + (n1.y - n2.y) * (n1.y - n2.y));
             }(graph[i], graph[j]);
             
-            obj += cplex_cost[i][j] * dist * y[i][j];
+            obj += cplex_cost[i][j] * dist * get_y(i, j);
         }
     }
     model.add(IloMinimize(env, obj));
@@ -168,7 +168,7 @@ Graph& OptimizationModel::get_solution() {
 
     auto get_y = [&](size_t i, size_t j) -> IloNumVar {
         if (i == j) return IloNumVar(); // Для y[i][i] вернет пустой/нулевой объект, если нужно
-        return (i < j) ? y[i][j] : y[j][i];
+        return (i > j) ? y[i][j] : y[j][i];
     };
     for(int i = 0; i < graph.size(); ++i) {
         for(int j = 0; j < graph.size(); ++j) {
@@ -187,7 +187,7 @@ void OptimizationModel::add_survivable_constraint(const std::unordered_set<size_
     IloExpr surv_expr(env);
     auto get_y = [&](size_t i, size_t j) -> IloNumVar {
         if (i == j) return IloNumVar(); // Для y[i][i] вернет пустой/нулевой объект, если нужно
-        return (i < j) ? y[i][j] : y[j][i];
+        return (i > j) ? y[i][j] : y[j][i];
     };
    for(auto& v: nodes) {
         for(size_t i = 0; i != graph.size(); ++i) {
