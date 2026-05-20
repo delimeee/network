@@ -1,7 +1,12 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import sys
 
 OUTPUT_DIR = 'output/'
+DEFAULT_OUTPUT_FILE = 'output.txt'
+
+if len(sys.argv) > 1:
+    DEFAULT_OUTPUT_FILE = sys.argv[1]
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 6))
 
@@ -12,7 +17,7 @@ node_labels = {}
 edge_labels_undir = {}
 edge_labels_dir = {}
 node_colors = []
-with open(OUTPUT_DIR + 'output.txt', 'r') as f:
+with open(OUTPUT_DIR + DEFAULT_OUTPUT_FILE, 'r') as f:
     nodes = []
     str_solid_nodes = f.readline()
     str_nodes = str_solid_nodes.split()
