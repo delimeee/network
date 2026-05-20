@@ -58,13 +58,19 @@ int main() {
     write_graph(g);
     
     //Точное решение
-    SolverMT exact_solver(graph);
-    exact_solver.solve();
+    // SolverMT exact_solver(graph);
+    // exact_solver.solve();
 
-    Graph exact_g = exact_solver.get_solution();
-    std::cout << "Точное решение" << '\n';
-    print_graph(exact_g);
-    write_graph(exact_g);
+    // Graph exact_g = exact_solver.get_solution();
+    // std::cout << "Точное решение" << '\n';
+    // GraphAnalyzer analyzer;
+    // if(analyzer.validate_solution(exact_g)) {
+    //     std::cout << "Решение надёжное" << '\n';
+    // } else {
+    //     std::cout << "Решение НЕНАДЁЖНОЕ" << '\n';
+    // }
+    // print_graph(exact_g);
+    // write_graph(exact_g);
 }
 
 void print_graph(const Graph& g) {
