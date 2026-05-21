@@ -9,7 +9,14 @@
 
 #define EPSILON ERROR
 
-SolverMT::SolverMT(Graph& g): graph(g) {
+SolverMT::SolverMT(Graph& g) : 
+    graph(g),
+    env{}, 
+    model(env),
+    cplex(env),
+    conversions(env),
+    is_float(true) 
+{
 	n = 0;
 	m = 0;
 	for(size_t i = 0; i != g.size(); ++i) {
@@ -38,47 +45,45 @@ SolverMT::SolverMT(Graph& g): graph(g) {
 	}
 
 	z_sol = IloArray<IloNumArray>(env, n + m);
-	for (int i = 0; i < n + m; i++)
-		z_sol[i] = IloNumArray(env);
-}
+    for (int i = 0; i < n + m; i++)
+        z_sol[i] = IloNumArray(env, n + m);
 
-SolverMT::~SolverMT() { }
+    // 1. ИСПРАВЛЕНО: Убрали повторное объявление типа (было IloArray<...> x). 
+    // Теперь пишем напрямую в поле класса.
+    x = IloArray<IloArray<IloNumVarArray>>(env, m);
+    for (int k = 0; k < m; k++) {
+        // ИСПРАВЛЕНО: Изменено с IloBoolVarArray на IloNumVarArray
+        x[k] = IloArray<IloNumVarArray>(env, n + m);
+        for (int i = 0; i < n + m; i++)
+            x[k][i] = IloNumVarArray(env, n + m,  0.0, 1.0, ILOFLOAT);
+    }
 
-bool SolverMT::solve() {
-	//VARS
-	IloArray<IloArray<IloBoolVarArray>> x(env, m);
-	for (int k = 0; k < m; k++) {
-		x[k] = IloArray<IloBoolVarArray>(env, n + m);
-		for (int i = 0; i < n + m; i++)
-			x[k][i] = IloBoolVarArray(env, n + m);
-	}
+    // 2. ИСПРАВЛЕНО: Убрали повторное объявление типа для y
+    y = IloArray<IloArray<IloNumVarArray>>(env, m);
+    for (int k = 0; k < m; k++) {
+        y[k] = IloArray<IloNumVarArray>(env, n + m);
+        for (int i = 0; i < n + m; i++)
+            y[k][i] = IloNumVarArray(env, n + m, 0, MAX_FLOW);
+    }
 
-	// Ykij
-	IloArray<IloArray<IloNumVarArray>> y(env, m);
-	for (int k = 0; k < m; k++) {
-		y[k] = IloArray<IloNumVarArray>(env, n + m);
-		for (int i = 0; i < n + m; i++)
-			y[k][i] = IloNumVarArray(env, n + m, 0, MAX_FLOW);
-	}
+    // 3. ИСПРАВЛЕНО: Убрали повторное объявление типа для z
+    z = IloArray<IloNumVarArray>(env, n + m);
+    for (int i = 0; i < n + m; i++)
+        z[i] = IloNumVarArray(env, n + m, 0.0, 1.0, ILOFLOAT);
 
-	// Zij
-	IloArray<IloBoolVarArray> z(env, n + m);
-	for (int i = 0; i < n + m; i++)
-			z[i] = IloBoolVarArray(env, n + m);
+    for (int i = 0; i < n + m; i++) {
+        for (int j = i; j < n + m; j++) {
+            string name = "z_" + to_string(i) + "_" + to_string(j);
+            // Явно указываем границы и тип, чтобы CPLEX корректно работал в режиме LP
+            z[i][j] = IloNumVar(env, 0.0, 1.0, ILOFLOAT, name.c_str());
+            z[j][i] = z[i][j]; 
+        }
+    }
+	// y[i] = IloNumVarArray(env, graph.size(), 0.0, 1.0, ILOFLOAT);
 
-	for (int i = 0; i < n + m; i++) {
-		for (int j = i; j < n + m; j++) {
-			string name = "z_" + to_string(i) + "_" + to_string(j);
-			z[i][j] = IloBoolVar(env, name.c_str());
-			z[j][i] = z[i][j]; // REFERENCE INSTEAD OF EXTRA VAR
-		}
-	}
+	//CONSTRAINTS
 
-
-	// CONSTRAINTS
-	IloModel model(env);
-
-	// EQUILIBRAGE DES SOURCES
+	//EQUILIBRAGE DES SOURCES
 	// for (int k = 0; k < m; k++)
 	// 	for (int i = 0; i < m; i++)
 	// 		for (int ii = 0; ii < m; ii++)
@@ -87,7 +92,7 @@ bool SolverMT::solve() {
 	// 				model.add(IloSum(y[k][i+n]) - IloSum(y[k][ii+n]) >= -data->K);
 	// 			}
 
-	// CUT
+	//CUT
 	for (int k = 0; k < m; k++)
 		for (int j = 0; j < n; j++)
 			model.add(x[k][n + k][j] == 0);
@@ -106,14 +111,15 @@ bool SolverMT::solve() {
 	// MAXIMUM SOURCES OUTPUT
 	// for (int k = 0; k < m; k++)
 	// 	for (int i = n; i < n + m; i++)
-	// 		model.add(IloSum(y[k][i]) <= data->output_max);
+	// 		model.add(IloSum(y[k][i]) == 2);
+
 	for (int k = 0; k < m; k++) {
-    for (int i = n; i < n + m; i++) {
-        int src_idx = i - n;
-        double cap = source_max[src_idx];
-        model.add(IloSum(y[k][i]) <= cap);
-    }
-}
+		for (int i = n; i < n + m; i++) {
+			int src_idx = i - n;
+			double cap = source_max[src_idx];
+			model.add(IloSum(y[k][i]) <= cap);
+		}
+	}
 
 
 	// MAX CAPACITY CABLE
@@ -168,9 +174,23 @@ bool SolverMT::solve() {
 	model.add(IloMinimize(env, obj));
 	obj.end();
 
+	for (int i = 0; i < n + m; i++) {
+        conversions.add(IloConversion(env, z[i], ILOINT));
+    }
+    for (int k = 0; k < m; k++) {
+        for (int i = 0; i < n + m; i++) {
+            conversions.add(IloConversion(env, x[k][i], ILOINT));
+        }
+    }
 
-	// SOLVE
-	IloCplex cplex(model);
+	cplex.extract(model);
+}
+
+SolverMT::~SolverMT() { 
+	env.end();
+}
+
+bool SolverMT::solve() {
 	bool res;
 	try {
 		res = cplex.solve();
@@ -182,7 +202,9 @@ bool SolverMT::solve() {
 	cout << "Solution status = " << cplex.getStatus() << endl;
 	if (res) {
 		cout << "Solution value  = " << cplex.getObjValue() << endl;
-		cout << "Solution relative gap = " << cplex.getMIPRelativeGap()*100 << "%" << endl;
+		if (!is_float) {
+            cout << "Solution relative gap = " << cplex.getMIPRelativeGap()*100 << "%" << endl;
+        }
 
 		for (int i = 0; i < n + m; i++) {
         	cplex.getValues(z_sol[i], z[i]);
@@ -199,4 +221,41 @@ bool SolverMT::solve() {
 
 Graph SolverMT::get_solution() {
 	return graph;
+}
+
+// Setproblemtype
+
+void SolverMT::add_survivable_constraint(const std::unordered_set<size_t>& nodes, double rvalue) {
+    IloExpr surv_expr(env);
+    for(auto& v: nodes) {
+        std::cout << v + 1 << '\n';
+        for(size_t i = 0; i != graph.size(); ++i) {
+            if(!nodes.contains(i)) {
+                surv_expr += z[i][v];
+            }
+        }
+    }
+    std::cout << "ADDED CONSTRAINT\n";
+    std::cout << surv_expr << rvalue << '\n';
+    model.add(surv_expr >= rvalue);
+    surv_expr.end();
+}
+
+void SolverMT::add_survivable_constraint(
+    const std::vector<std::pair<std::unordered_set<size_t>, double>>& constrains
+) {
+    for(auto& constraint: constrains) {
+        auto& [nodes, rvalue] = constraint;
+        SolverMT::add_survivable_constraint(nodes, rvalue);
+    }
+}
+
+void SolverMT::switch_model() {
+    if(is_float) {
+        model.add(conversions);
+        is_float = false;
+    } else {
+        model.remove(conversions);
+        is_float = true;
+    }
 }

@@ -39,38 +39,38 @@ int main() {
     }
 
     OptimizationEngine eng(graph);
-    eng.run();
+    // eng.run();
 
-    std::cout << "Пройдено итераций: " << eng.get_iterations() << '\n'; 
+    // std::cout << "Пройдено итераций: " << eng.get_iterations() << '\n'; 
 
-    Graph g = eng.get_solution();
-    if(g.size() == 0) {
-        std::cout << "Задача не решилась" << std::endl;
-        return 0;
-    }
+    // Graph g = eng.get_solution();
+    // if(g.size() == 0) {
+    //     std::cout << "Задача не решилась" << std::endl;
+    //     return 0;
+    // }
 
-    if(eng.get_survivable_network()) {
-        std::cout << "Решение надёжное" << std::endl;
-    } else {
-        std::cout << "Решение НЕНАДЁЖНОЕ" << std::endl;
-    }
-    print_graph(g);
-    write_graph(g);
+    // if(eng.get_survivable_network()) {
+    //     std::cout << "Решение надёжное" << std::endl;
+    // } else {
+    //     std::cout << "Решение НЕНАДЁЖНОЕ" << std::endl;
+    // }
+    // print_graph(g);
+    // write_graph(g);
     
     //Точное решение
-    // SolverMT exact_solver(graph);
-    // exact_solver.solve();
+    SolverMT exact_solver(graph);
+    exact_solver.solve();
 
-    // Graph exact_g = exact_solver.get_solution();
-    // std::cout << "Точное решение" << '\n';
-    // GraphAnalyzer analyzer;
-    // if(analyzer.validate_solution(exact_g)) {
-    //     std::cout << "Решение надёжное" << '\n';
-    // } else {
-    //     std::cout << "Решение НЕНАДЁЖНОЕ" << '\n';
-    // }
-    // print_graph(exact_g);
-    // write_graph(exact_g);
+    Graph exact_g = exact_solver.get_solution();
+    std::cout << "Точное решение" << '\n';
+    GraphAnalyzer analyzer;
+    if(analyzer.validate_solution(exact_g)) {
+        std::cout << "Решение надёжное" << '\n';
+    } else {
+        std::cout << "Решение НЕНАДЁЖНОЕ" << '\n';
+    }
+    print_graph(exact_g);
+    write_graph(exact_g);
 }
 
 void print_graph(const Graph& g) {
