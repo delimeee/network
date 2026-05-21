@@ -2,13 +2,15 @@
 #define OENGINE_H
 #include "../GraphAnalyzer/ganalyzer.h"
 #include "../OptimizationEngine/oengine.h"
+#include "../OptimizationModel/omodel.h"
 #include "../ExactModel/solver_hta.h"
 #include "../Graph/graph.h"
 
 
 class OptimizationEngine {
     private:
-        SolverMT model;
+        Graph graph;
+        OptimizationModel model;
         GraphAnalyzer graph_analyzer;
         bool solve_status;
         bool survivable_network;

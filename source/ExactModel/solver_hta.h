@@ -10,7 +10,7 @@ using namespace std;
 class SolverMT {
 
 	public:
-		SolverMT(Graph&);
+		SolverMT(Graph&, bool);
 		~SolverMT();
 
 		bool solve();
@@ -21,7 +21,7 @@ class SolverMT {
         void add_survivable_constraint(
             const std::vector<std::pair<std::unordered_set<size_t>, double>>&
         );
-		void switch_model();
+		void add_mip_start(const Graph& g);
 
 	private:
 		int n;
@@ -33,7 +33,6 @@ class SolverMT {
 
 		IloEnv env;
 		IloArray<IloNumArray> Mdist;
-		IloExtractableArray conversions;
 
 		IloModel model;
 		IloCplex cplex;

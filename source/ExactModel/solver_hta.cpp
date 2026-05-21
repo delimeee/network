@@ -9,14 +9,14 @@
 
 #define EPSILON ERROR
 
-SolverMT::SolverMT(Graph& g) : 
+SolverMT::SolverMT(Graph& g, bool is_huinya_ebanaya) : 
     graph(g),
     env{}, 
     model(env),
-    cplex(env),
-    conversions(env),
+    cplex{env},
     is_float(true) 
-{
+{	
+	auto HUINYA = is_huinya_ebanaya ? ILOFLOAT : ILOINT;
 	n = 0;
 	m = 0;
 	for(size_t i = 0; i != g.size(); ++i) {
@@ -55,7 +55,7 @@ SolverMT::SolverMT(Graph& g) :
         // ИСПРАВЛЕНО: Изменено с IloBoolVarArray на IloNumVarArray
         x[k] = IloArray<IloNumVarArray>(env, n + m);
         for (int i = 0; i < n + m; i++)
-            x[k][i] = IloNumVarArray(env, n + m,  0.0, 1.0, ILOFLOAT);
+            x[k][i] = IloNumVarArray(env, n + m,  0.0, 1.0, HUINYA);
     }
 
     // 2. ИСПРАВЛЕНО: Убрали повторное объявление типа для y
@@ -69,7 +69,7 @@ SolverMT::SolverMT(Graph& g) :
     // 3. ИСПРАВЛЕНО: Убрали повторное объявление типа для z
     z = IloArray<IloNumVarArray>(env, n + m);
     for (int i = 0; i < n + m; i++)
-        z[i] = IloNumVarArray(env, n + m, 0.0, 1.0, ILOFLOAT);
+        z[i] = IloNumVarArray(env, n + m, 0.0, 1.0, HUINYA);
 
     for (int i = 0; i < n + m; i++) {
         for (int j = i; j < n + m; j++) {
@@ -174,16 +174,6 @@ SolverMT::SolverMT(Graph& g) :
 	model.add(IloMinimize(env, obj));
 	obj.end();
 
-	for (int i = 0; i < n + m; i++) {
-        conversions.add(IloConversion(env, z[i], ILOINT));
-    }
-    for (int k = 0; k < m; k++) {
-        for (int i = 0; i < n + m; i++) {
-            conversions.add(IloConversion(env, x[k][i], ILOINT));
-        }
-    }
-
-	cplex.extract(model);
 }
 
 SolverMT::~SolverMT() { 
@@ -191,6 +181,7 @@ SolverMT::~SolverMT() {
 }
 
 bool SolverMT::solve() {
+	cplex.extract(model);
 	bool res;
 	try {
 		res = cplex.solve();
@@ -228,15 +219,15 @@ Graph SolverMT::get_solution() {
 void SolverMT::add_survivable_constraint(const std::unordered_set<size_t>& nodes, double rvalue) {
     IloExpr surv_expr(env);
     for(auto& v: nodes) {
-        std::cout << v + 1 << '\n';
+        // std::cout << v + 1 << '\n';
         for(size_t i = 0; i != graph.size(); ++i) {
             if(!nodes.contains(i)) {
                 surv_expr += z[i][v];
             }
         }
     }
-    std::cout << "ADDED CONSTRAINT\n";
-    std::cout << surv_expr << rvalue << '\n';
+    // std::cout << "ADDED CONSTRAINT\n";
+    // std::cout << surv_expr << rvalue << '\n';
     model.add(surv_expr >= rvalue);
     surv_expr.end();
 }
@@ -250,12 +241,17 @@ void SolverMT::add_survivable_constraint(
     }
 }
 
-void SolverMT::switch_model() {
-    if(is_float) {
-        model.add(conversions);
-        is_float = false;
-    } else {
-        model.remove(conversions);
-        is_float = true;
-    }
+void SolverMT::add_mip_start(const Graph& g) {
+	IloNumVarArray startVars(env);
+    IloNumArray startValues(env);
+
+	for(size_t i = 0; i != g.size(); ++i) {
+		for(size_t j = 0; j != g.size(); ++j) {
+			startVars.add(z[i][j]);
+			startValues.add(IloRound(g(i, j).value));
+		}
+	}
+
+	cplex.extract(model);
+	cplex.addMIPStart(startVars, startValues);
 }

@@ -2,22 +2,24 @@
 #include "../GraphAnalyzer/ganalyzer.h"
 #include "./oengine.h"
 
-// OptimizationEngine::OptimizationEngine(Graph& g): model{g},  solve_status{false},
-//         survivable_network{false}, iterations{0}{ }
-
-        OptimizationEngine::OptimizationEngine(Graph& g): model{g} { }
+OptimizationEngine::OptimizationEngine(Graph& g): graph{g}, model{g},  solve_status{false},
+        survivable_network{false}, iterations{0}{ }
 
 // Packages
 void OptimizationEngine::run() {
+
+
     if(!(solve_status = model.solve())) {
         return;
     }
 
     auto g = model.get_solution();
+    SolverMT exact_model(g, false);
     auto constr_vars = graph_analyzer.find_all_violations(g);
     while(!constr_vars.empty()) {
         model.add_survivable_constraint(constr_vars);
-        
+        exact_model.add_survivable_constraint(constr_vars);
+
         std::cout << "Количество ограничений: " << constr_vars.size() << '\n';
 
         iterations++;
@@ -30,24 +32,24 @@ void OptimizationEngine::run() {
     }
 
 
-    std::cout << "Мы вышли отсюдова" << '\n';
     // === ШАГ 2: Переход к точному целочисленному решению (MIP) ===
     std::cout << "--- LP фаза завершена. Переключение в MIP (Точное решение) ---\n";
-    
-    model.switch_model(); // Включаем целочисленность (добавляем conversions в CPLEX)
 
+    
+    exact_model.add_mip_start(g);
     // Пересчитываем модель уже в целых числах с учетом всех найденных LP-разрезов
-    if (!(solve_status = model.solve())) {
+    if (!(solve_status = exact_model.solve())) {
         return;
     }
 
-    survivable_network = graph_analyzer.validate_solution(g); 
+    graph = exact_model.get_solution();
+    survivable_network = graph_analyzer.validate_solution(graph);
 }
 
 
 Graph OptimizationEngine::get_solution() {
     if(solve_status) {
-        return model.get_solution();
+        return graph;
     } else {
         return Graph();
     }
