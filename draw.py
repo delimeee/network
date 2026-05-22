@@ -27,7 +27,7 @@ with open(OUTPUT_DIR + DEFAULT_OUTPUT_FILE, 'r') as f:
             'type': type,
             'demand': float(str_demand),
             }))
-        pos[i] = (int(str_x), int(str_y))
+        pos[i] = (float(str_x), float(str_y))
         node_labels[i] = f'{str_demand}:{i + 1}'
         if type == 'Station':
             node_colors.append('orange')

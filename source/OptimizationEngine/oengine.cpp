@@ -46,7 +46,6 @@ void OptimizationEngine::run() {
     }
 
     std::vector<decltype(constr_vars)::value_type>().swap(constr_vars);
-    model.clear();
 
     // === ШАГ 2: Переход к точному целочисленному решению (MIP) ===
     std::cout << "--- LP фаза завершена. Переключение в MIP (Точное решение) ---\n";

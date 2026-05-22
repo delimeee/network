@@ -1,0 +1,614 @@
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 222 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5247 rows, 7662 columns, and 25122 nonzeros.
+Presolve time = 0.01 sec. (7.76 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   253   Dual objective     =   89138479469.857880
+Perturbation started.
+Iteration:   303   Dual objective     =   89138479469.857758
+Iteration:   478   Dual objective     =   89138479469.861160
+Iteration:   613   Dual objective     =   89138479469.863312
+Iteration:   743   Dual objective     =   89138479469.865646
+Iteration:   906   Dual objective     =   89138479469.868912
+Iteration:  1062   Dual objective     =   89138479469.874863
+Iteration:  1221   Dual objective     =   89138479469.881851
+Iteration:  1386   Dual objective     =   89549295327.882660
+Iteration:  1532   Dual objective     =   89549295327.886734
+Iteration:  1645   Dual objective     =   89549295327.888611
+Iteration:  1778   Dual objective     =   89549295327.890808
+Iteration:  1916   Dual objective     =   93784351052.468430
+Iteration:  2061   Dual objective     =   93806390596.051285
+Iteration:  2205   Dual objective     =   94268330573.058319
+Iteration:  2327   Dual objective     =   94268330573.059494
+Iteration:  2444   Dual objective     =   94268330573.060944
+Iteration:  2600   Dual objective     =   94889963217.725418
+Iteration:  2758   Dual objective     =   94889963217.736389
+Iteration:  2879   Dual objective     =   95714637057.829849
+Iteration:  3004   Dual objective     =   95724704425.144211
+Iteration:  3139   Dual objective     =   95724704425.150391
+Iteration:  3280   Dual objective     =   95728309649.240570
+Removing perturbation.
+Using devex.
+
+Barrier solved model.
+
+Solution status: Optimal
+Objective value: 9.66575e+10
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 1992 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5439 rows, 7662 columns, and 193498 nonzeros.
+Presolve time = 0.09 sec. (173.09 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   186   Dual objective     =   88191935544.446732
+Perturbation started.
+Iteration:   404   Dual objective     =   94176453242.976349
+Iteration:   542   Dual objective     =   94176453242.978867
+Iteration:   677   Dual objective     =   94176453242.981766
+Iteration:   820   Dual objective     =   94176453242.984695
+Iteration:   975   Dual objective     =   94176453242.990265
+Iteration:  1154   Dual objective     =   94176453242.997070
+Iteration:  1318   Dual objective     =   94176453243.004669
+Iteration:  1518   Dual objective     =   94176453243.027466
+Iteration:  1708   Dual objective     =   94176453243.031754
+Iteration:  1934   Dual objective     =   99329833359.796036
+Iteration:  2134   Dual objective     =   99329833359.805542
+Iteration:  2335   Dual objective     =   99329833359.816788
+Iteration:  2543   Dual objective     =   99621030291.329269
+Iteration:  2768   Dual objective     =  100303032233.380219
+Iteration:  2976   Dual objective     =  100303032233.414276
+Iteration:  3265   Dual objective     =  100641344945.423172
+Iteration:  3523   Dual objective     =  100924735575.558853
+Iteration:  3787   Dual objective     =  101204993109.764435
+Iteration:  4141   Dual objective     =  101816524539.198715
+Iteration:  4369   Dual objective     =  101826082431.636734
+Iteration:  4613   Dual objective     =  101963176920.862015
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.01993e+11
+Float model size:
+Concert Env Memory Usage: 0.0499543 GB
+Количество ограничений: 1962
+Память вектора: 0.000233911 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 2214 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5472 rows, 7662 columns, and 229761 nonzeros.
+Presolve time = 0.10 sec. (207.88 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   179   Dual objective     =   87397374834.774078
+Iteration:   431   Dual objective     =   95494289301.903366
+Iteration:   630   Dual objective     =   95499059993.211502
+Iteration:   785   Dual objective     =   95499059993.211517
+Perturbation started.
+Iteration:   808   Dual objective     =   95499059993.211502
+Iteration:   927   Dual objective     =   95499059993.218689
+Iteration:  1065   Dual objective     =   95499059993.231216
+Iteration:  1209   Dual objective     =   95499059993.236572
+Iteration:  1353   Dual objective     =   95499059993.243866
+Iteration:  1536   Dual objective     =   95582491738.619034
+Iteration:  1763   Dual objective     =   99579062706.501175
+Iteration:  1978   Dual objective     =  100549458151.745026
+Iteration:  2159   Dual objective     =  100549458151.751373
+Iteration:  2335   Dual objective     =  100549458151.754532
+Iteration:  2547   Dual objective     =  101080355793.899780
+Iteration:  2739   Dual objective     =  101080355793.903809
+Iteration:  2947   Dual objective     =  101201188420.090820
+Iteration:  3171   Dual objective     =  101632237306.203461
+Iteration:  3436   Dual objective     =  101911401264.915878
+Iteration:  3655   Dual objective     =  101911401264.922302
+Iteration:  3918   Dual objective     =  101988622098.242676
+Iteration:  4132   Dual objective     =  102057912640.098877
+Iteration:  4383   Dual objective     =  102057912640.104263
+Iteration:  4587   Dual objective     =  102147746841.745850
+Iteration:  4836   Dual objective     =  102265915124.200577
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.02267e+11
+Float model size:
+Concert Env Memory Usage: 0.0566521 GB
+Количество ограничений: 255
+Память вектора: 0.0004678 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 2392 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5512 rows, 7662 columns, and 275776 nonzeros.
+Presolve time = 0.12 sec. (243.33 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   188   Dual objective     =   86344400295.364319
+Iteration:   364   Dual objective     =   96817868637.362289
+Perturbation started.
+Iteration:   505   Dual objective     =   97082633094.225555
+Iteration:   634   Dual objective     =   97082633094.227783
+Iteration:   771   Dual objective     =   97082633094.231064
+Iteration:   914   Dual objective     =   97082633094.235764
+Iteration:  1066   Dual objective     =   97082633094.243927
+Iteration:  1226   Dual objective     =   97082633094.248260
+Iteration:  1400   Dual objective     =   97082633094.256973
+Iteration:  1584   Dual objective     =   97082633094.269531
+Iteration:  1795   Dual objective     =  100711566026.441544
+Iteration:  2006   Dual objective     =  100958548826.545776
+Iteration:  2275   Dual objective     =  101763755138.998169
+Iteration:  2469   Dual objective     =  101763755139.010193
+Iteration:  2692   Dual objective     =  102902916843.555740
+Iteration:  2913   Dual objective     =  102902916843.563293
+Iteration:  3144   Dual objective     =  102916596150.798553
+Iteration:  3379   Dual objective     =  102916596150.813828
+Iteration:  3689   Dual objective     =  104375752587.669250
+Iteration:  3968   Dual objective     =  104544203302.248215
+Iteration:  4335   Dual objective     =  104740032115.593552
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.04743e+11
+Float model size:
+Concert Env Memory Usage: 0.0625955 GB
+Количество ограничений: 218
+Память вектора: 0.0004678 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 3083 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5539 rows, 7662 columns, and 306299 nonzeros.
+Presolve time = 0.15 sec. (306.43 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   172   Dual objective     =   88686011725.031433
+Iteration:   433   Dual objective     =   98639665957.765015
+Perturbation started.
+Iteration:   505   Dual objective     =   98639665957.764862
+Iteration:   647   Dual objective     =   98639665957.767059
+Iteration:   791   Dual objective     =   98639665957.769547
+Iteration:   931   Dual objective     =   98639665957.772400
+Iteration:  1083   Dual objective     =   98639665957.775467
+Iteration:  1238   Dual objective     =   98639665957.787231
+Iteration:  1395   Dual objective     =   98639665957.812943
+Iteration:  1600   Dual objective     =  102272097573.769836
+Iteration:  1787   Dual objective     =  102272097573.773788
+Iteration:  1985   Dual objective     =  103077596358.399139
+Iteration:  2171   Dual objective     =  103321684887.914871
+Iteration:  2390   Dual objective     =  104744834850.430573
+Iteration:  2620   Dual objective     =  104794014320.774582
+Iteration:  2831   Dual objective     =  104818481338.850098
+Iteration:  3078   Dual objective     =  104818481338.855789
+Iteration:  3394   Dual objective     =  104993964447.744919
+Iteration:  3664   Dual objective     =  105173356442.486252
+Iteration:  3936   Dual objective     =  105326695994.921875
+Iteration:  4239   Dual objective     =  105381159181.885925
+Iteration:  4525   Dual objective     =  105381159181.892380
+Iteration:  4825   Dual objective     =  105469252247.970657
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.05469e+11
+Float model size:
+Concert Env Memory Usage: 0.0816955 GB
+Количество ограничений: 718
+Память вектора: 0.0004678 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 3161 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5549 rows, 7662 columns, and 318202 nonzeros.
+Presolve time = 0.16 sec. (316.91 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   170   Dual objective     =   90259470752.697281
+Iteration:   393   Dual objective     =   99004402993.729782
+Perturbation started.
+Iteration:   505   Dual objective     =   99004402993.726532
+Iteration:   641   Dual objective     =   99004402993.728973
+Iteration:   771   Dual objective     =   99004402993.732864
+Iteration:   906   Dual objective     =   99004402993.736252
+Iteration:  1050   Dual objective     =   99004402993.741364
+Iteration:  1210   Dual objective     =   99004402993.747726
+Iteration:  1377   Dual objective     =   99004402993.764450
+Iteration:  1560   Dual objective     =   99004402993.768021
+Iteration:  1775   Dual objective     =   99004402993.775497
+Iteration:  1999   Dual objective     =  103639807120.688736
+Iteration:  2253   Dual objective     =  103797888389.298309
+Iteration:  2488   Dual objective     =  104808127156.967697
+Iteration:  2723   Dual objective     =  104969796110.422836
+Iteration:  2969   Dual objective     =  104979607991.130676
+Iteration:  3317   Dual objective     =  105193525633.928528
+Iteration:  3602   Dual objective     =  105455796592.367737
+Iteration:  3832   Dual objective     =  105455796592.377319
+Iteration:  4100   Dual objective     =  105653472753.366226
+Iteration:  4368   Dual objective     =  105680839816.335007
+Iteration:  4647   Dual objective     =  105700024982.254745
+Iteration:  4919   Dual objective     =  105714574193.321732
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.05716e+11
+Float model size:
+Concert Env Memory Usage: 0.0842185 GB
+Количество ограничений: 88
+Память вектора: 0.0004678 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 3479 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5575 rows, 7662 columns, and 348497 nonzeros.
+Presolve time = 0.18 sec. (359.79 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   167   Dual objective     =   86186554541.036560
+Iteration:   408   Dual objective     =   96211349850.244553
+Iteration:   631   Dual objective     =   99042421924.248413
+Iteration:   781   Dual objective     =   99075290388.352432
+Perturbation started.
+Iteration:   909   Dual objective     =   99075290388.359879
+Iteration:  1042   Dual objective     =   99172203686.072067
+Iteration:  1180   Dual objective     =   99172203686.084457
+Iteration:  1318   Dual objective     =   99172203686.089264
+Iteration:  1478   Dual objective     =  102090173530.424713
+Iteration:  1669   Dual objective     =  103726476380.841873
+Iteration:  1877   Dual objective     =  104525782583.220871
+Iteration:  2069   Dual objective     =  104525782583.222534
+Iteration:  2266   Dual objective     =  104525782583.226913
+Iteration:  2477   Dual objective     =  104596224401.461548
+Iteration:  2661   Dual objective     =  104596224401.465454
+Iteration:  2841   Dual objective     =  104596224401.472763
+Iteration:  3039   Dual objective     =  104596224401.479446
+Iteration:  3227   Dual objective     =  104681357344.523926
+Iteration:  3435   Dual objective     =  104961716817.318481
+Iteration:  3685   Dual objective     =  105475946397.094055
+Iteration:  3921   Dual objective     =  105505863415.457321
+Iteration:  4162   Dual objective     =  105505863415.473129
+Iteration:  4439   Dual objective     =  105680684436.716202
+Iteration:  4769   Dual objective     =  105839951548.270828
+Iteration:  5079   Dual objective     =  105911731662.930084
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.05915e+11
+Float model size:
+Concert Env Memory Usage: 0.0936388 GB
+Количество ограничений: 344
+Память вектора: 0.0004678 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 3694 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5589 rows, 7662 columns, and 364194 nonzeros.
+Presolve time = 0.22 sec. (383.56 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   170   Dual objective     =   85323438871.183807
+Iteration:   431   Dual objective     =   97927905486.579681
+Iteration:   628   Dual objective     =   98846642631.107666
+Perturbation started.
+Iteration:   707   Dual objective     =   98846642631.107330
+Iteration:   828   Dual objective     =   98846642631.116821
+Iteration:   963   Dual objective     =   99654622371.135971
+Iteration:  1144   Dual objective     =  102515262783.794144
+Iteration:  1346   Dual objective     =  103328613914.108170
+Iteration:  1494   Dual objective     =  104081203084.945999
+Iteration:  1654   Dual objective     =  104081203084.948227
+Iteration:  1826   Dual objective     =  104123035834.132492
+Iteration:  1999   Dual objective     =  104131495923.694702
+Iteration:  2179   Dual objective     =  104191197080.331390
+Iteration:  2376   Dual objective     =  105026518003.122223
+Iteration:  2554   Dual objective     =  105026518003.125916
+Iteration:  2744   Dual objective     =  105026518003.129532
+Iteration:  2940   Dual objective     =  105185295496.369812
+Iteration:  3142   Dual objective     =  105275170740.019363
+Iteration:  3338   Dual objective     =  105275170740.025497
+Iteration:  3551   Dual objective     =  105324816220.857437
+Iteration:  3795   Dual objective     =  105968352878.730453
+Iteration:  4075   Dual objective     =  106002449441.402084
+Iteration:  4321   Dual objective     =  106086909279.155975
+Iteration:  4592   Dual objective     =  106126704277.300339
+Iteration:  4808   Dual objective     =  106126704277.301346
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.06127e+11
+Float model size:
+Concert Env Memory Usage: 0.0995547 GB
+Количество ограничений: 229
+Память вектора: 0.0004678 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 3744 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5600 rows, 7662 columns, and 371192 nonzeros.
+Presolve time = 0.19 sec. (390.92 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   180   Dual objective     =   88774641668.124481
+Iteration:   431   Dual objective     =   99889502456.016022
+Iteration:   647   Dual objective     =  100155267768.734543
+Iteration:   805   Dual objective     =  100155267768.735916
+Perturbation started.
+Iteration:   808   Dual objective     =  100155267768.735931
+Iteration:   938   Dual objective     =  100155267768.741150
+Iteration:  1079   Dual objective     =  100155267768.743469
+Iteration:  1214   Dual objective     =  100975110243.244049
+Iteration:  1370   Dual objective     =  101781969372.765167
+Iteration:  1581   Dual objective     =  103355646415.414093
+Iteration:  1760   Dual objective     =  103355646415.417068
+Iteration:  1926   Dual objective     =  103355646415.427841
+Iteration:  2101   Dual objective     =  103889188676.182373
+Iteration:  2319   Dual objective     =  104675700515.304657
+Iteration:  2509   Dual objective     =  104675700515.309753
+Iteration:  2695   Dual objective     =  104702804412.267395
+Iteration:  2924   Dual objective     =  105586767449.096634
+Iteration:  3145   Dual objective     =  105612572723.057297
+Iteration:  3353   Dual objective     =  105612572723.063248
+Iteration:  3627   Dual objective     =  105823403397.648727
+Iteration:  3886   Dual objective     =  105953418412.218689
+Iteration:  4150   Dual objective     =  106030213486.633850
+Iteration:  4439   Dual objective     =  106143509855.827850
+Iteration:  4682   Dual objective     =  106143509855.827972
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.06144e+11
+Float model size:
+Concert Env Memory Usage: 0.100526 GB
+Количество ограничений: 61
+Память вектора: 0.0004678 GB
+--- LP фаза завершена. Переключение в MIP (Точное решение) ---
+Tried aggregator 1 time.
+MIP Presolve eliminated 8511 rows and 2197 columns.
+Reduced MIP has 30029 rows, 31536 columns, and 466475 nonzeros.
+Reduced MIP has 17046 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.78 sec. (1060.48 ticks)
+Probing time = 0.12 sec. (13.35 ticks)
+Tried aggregator 1 time.
+Reduced MIP has 30029 rows, 31536 columns, and 466475 nonzeros.
+Reduced MIP has 17046 binaries, 0 generals, 0 SOSs, and 0 indicators.
+Presolve time = 0.16 sec. (214.13 ticks)
+Probing time = 0.14 sec. (12.84 ticks)
+Clique table members: 14904.
+MIP emphasis: balance optimality and feasibility.
+MIP search method: dynamic search.
+Parallel mode: deterministic, using up to 4 threads.
+Root relaxation solution time = 18.15 sec. (7187.60 ticks)
+
+        Nodes                                         Cuts/
+   Node  Left     Objective  IInf  Best Integer    Best Bound    ItCnt     Gap
+
+      0     0    13136.0074   591                  13136.0074       29         
+      0     0    13284.7558   703                   Cuts: 539    39667         
+*     0+    0                        78163.3604    13284.7558            83.00%
+      0     0    13318.2593   756    78163.3604     Cuts: 474    80145   82.96%
+      0     0    13331.2353   752    78163.3604     Cuts: 429    99638   82.94%
+      0     0    13340.7815   770    78163.3604     Cuts: 367   117764   82.93%
+      0     0    13345.3746   785    78163.3604     Cuts: 338   133480   82.93%
+      0     0    13348.0507   848    78163.3604     Cuts: 360   148437   82.92%
+      0     0    13352.8284   842    78163.3604     Cuts: 380   170985   82.92%
+      0     0    13354.3266   827    78163.3604     Cuts: 353   189976   82.91%
+      0     0    13355.3968   834    78163.3604     Cuts: 328   217445   82.91%
+      0     0    13356.8225   828    78163.3604     Cuts: 349   229884   82.91%
+      0     0    13357.8502   835    78163.3604     Cuts: 369   247812   82.91%
+Heuristic still looking.
+Heuristic still looking.
+Heuristic still looking.
+      0     2    13357.8502   835    78163.3604    13357.8502   247812   82.91%
+Elapsed time = 816.00 sec. (814863.68 ticks, tree = 0.00 MB, solutions = 1)
+      1     3    13363.7066   790    78163.3604    13357.8502   269492   82.91%
+      2     4    13358.1703   838    78163.3604    13357.8502   282849   82.91%
+      3     5    13384.0698   796    78163.3604    13358.1736   301191   82.91%
+      4     6    13358.9156   819    78163.3604    13358.1736   322765   82.91%
+      5     7    13358.9562   827    78163.3604    13358.1736   339043   82.91%
+      7     9    13360.5606   798    78163.3604    13358.1736   355113   82.91%
+      8    10    13359.5755   808    78163.3604    13358.1736   363366   82.91%
+      9    11    13428.2422   788    78163.3604    13358.9234   445511   82.91%
+     13    15    13366.8705   783    78163.3604    13358.9234   662726   82.91%
+     14    16    13369.3570   811    78163.3604    13358.9234   831982   82.91%
+Elapsed time = 1057.74 sec. (1020244.89 ticks, tree = 0.00 MB, solutions = 1)
+     15    17    13382.7960   797    78163.3604    13358.9234   905414   82.91%
+     17    19    13394.3002   768    78163.3604    13358.9234  1175115   82.91%
+     18    20    13435.0701   692    78163.3604    13358.9234  1302382   82.91%
+     19    21    13395.4947   779    78163.3604    13358.9234  1331523   82.91%
+     20    22    13380.3804   792    78163.3604    13358.9234  1362435   82.91%
+     21    23    13412.0769   748    78163.3604    13358.9234  1380645   82.91%
+     24    26    13430.7737   700    78163.3604    13358.9234  1430425   82.91%
+     26    28    13388.0199   714    78163.3604    13358.9234  1463023   82.91%
+     27    29    13427.1450   749    78163.3604    13358.9234  1490753   82.91%
+     28    30    13461.4294   658    78163.3604    13358.9234  1504426   82.91%
+Elapsed time = 1311.56 sec. (1194398.98 ticks, tree = 0.00 MB, solutions = 1)
+     29    31    13443.9830   766    78163.3604    13358.9234  1527481   82.91%
+     32    34    13468.1062   662    78163.3604    13358.9234  1575148   82.91%
+     33    35    13423.5929   777    78163.3604    13358.9234  1586902   82.91%
+     35    37    13435.7711   753    78163.3604    13358.9234  1627111   82.91%
+     36    38    13475.7053   649    78163.3604    13358.9234  1643184   82.91%
+     38    40    13470.4507   691    78163.3604    13358.9234  1702514   82.91%
+     42    44    13849.3084   791    78163.3604    13358.9234  1773206   82.91%
+     46    48    13503.2297   661    78163.3604    13358.9234  1830869   82.91%
+     62    64    13513.9657   637    78163.3604    13358.9234  1985242   82.91%
+     63    65    13426.2724   751    78163.3604    13358.9234  2007514   82.91%
+Elapsed time = 1624.47 sec. (1401584.00 ticks, tree = 0.00 MB, solutions = 1)
+     66    68    13524.6579   639    78163.3604    13358.9234  2062066   82.91%
+     67    69    13455.6167   747    78163.3604    13358.9234  2088239   82.91%
+     70    72    13517.5069   637    78163.3604    13358.9234  2143145   82.91%
+     71    73    13434.4285   710    78163.3604    13358.9234  2158479   82.91%
+     74    76    13521.3503   647    78163.3604    13358.9234  2217599   82.91%
+     75    77    13435.4871   740    78163.3604    13358.9234  2230132   82.91%
+     78    80    13539.7256   565    78163.3604    13358.9234  2277754   82.91%
+     79    81    13525.6539   754    78163.3604    13358.9234  2307259   82.91%
+     80    82    13520.4537   663    78163.3604    13358.9234  2327870   82.91%
+     84    86    13521.5481   663    78163.3604    13358.9234  2385930   82.91%
+Elapsed time = 1797.49 sec. (1512498.00 ticks, tree = 0.00 MB, solutions = 1)
+     88    90    13539.0681   626    78163.3604    13358.9234  2445810   82.91%
+     91    93    13448.4889   740    78163.3604    13358.9234  2497435   82.91%
+     92    94    13543.7836   617    78163.3604    13358.9234  2518620   82.91%
+     95    97    13532.3217   728    78163.3604    13358.9234  2575892   82.91%
+    113   115    13575.4987   612    78163.3604    13358.9234  2824704   82.91%
+    114   116    13450.6997   729    78163.3604    13358.9234  2847133   82.91%
+    116   118    13719.7713   589    78163.3604    13358.9234  2888358   82.91%
+    117   119    13595.5791   563    78163.3604    13358.9234  2899916   82.91%
+    118   120    13455.6451   756    78163.3604    13358.9234  2926442   82.91%
+    121   123    13599.8094   552    78163.3604    13358.9234  2969642   82.91%
+Elapsed time = 2010.17 sec. (1665564.97 ticks, tree = 1.72 MB, solutions = 1)
+    122   124    13638.8788   684    78163.3604    13358.9234  3006241   82.91%
+    125   127    13632.4844   558    78163.3604    13358.9234  3054907   82.91%
+    126   128    13459.0449   748    78163.3604    13358.9234  3093559   82.91%
+    129   131    13619.7293   511    78163.3604    13358.9234  3137154   82.91%
+    130   132    13464.3568   771    78163.3604    13358.9234  3157363   82.91%
+    131   133    13619.3678   569    78163.3604    13358.9234  3166841   82.91%
+    134   136    13480.5918   758    78163.3604    13358.9234  3217359   82.91%
+    138   140    13509.7788   741    78163.3604    13358.9234  3299024   82.91%
+    142   144    13510.5485   742    78163.3604    13358.9234  3353959   82.91%
+    146   148    13566.8665   724    78163.3604    13358.9234  3435661   82.91%
+Elapsed time = 2210.83 sec. (1788244.45 ticks, tree = 1.72 MB, solutions = 1)
+    150   152    13517.3928   731    78163.3604    13358.9234  3497653   82.91%
+    154   156    13521.9702   764    78163.3604    13358.9234  3557046   82.91%
+    158   160    13598.6422   707    78163.3604    13358.9234  3632659   82.91%
+    184   186    13736.9484   490    78163.3604    13358.9234  3993340   82.91%
+    185   187    13622.0053   688    78163.3604    13358.9234  4036026   82.91%
+    188   190    13706.5240   457    78163.3604    13358.9234  4087154   82.91%
+    189   191    13623.6362   667    78163.3604    13358.9234  4108275   82.91%
+    193   195    13708.8324   697    78163.3604    13358.9234  4182369   82.91%
+    197   199    13649.4811   684    78163.3604    13358.9234  4246692   82.91%
+    201   203    13653.4560   678    78163.3604    13358.9234  4292267   82.91%
+Elapsed time = 2629.60 sec. (2117391.98 ticks, tree = 3.47 MB, solutions = 1)
+    253   255    14125.3814   479    78163.3604    13358.9234  5045706   82.91%
+    254   256    13657.7783   687    78163.3604    13358.9234  5067754   82.91%
+    256   258    13914.0456   552    78163.3604    13358.9234  5106258   82.91%
+    258   260    13742.5577   670    78163.3604    13358.9234  5131735   82.91%
+    260   262    13962.0198   574    78163.3604    13358.9234  5183657   82.91%
+    262   264    13677.3881   652    78163.3604    13358.9234  5216000   82.91%
+    266   268    13681.9005   653    78163.3604    13358.9234  5281823   82.91%
+    270   272    13731.5409   660    78163.3604    13358.9234  5342667   82.91%
+    274   276    13682.5691   642    78163.3604    13358.9234  5383774   82.91%
+    278   280    13757.2474   665    78163.3604    13358.9234  5470689   82.91%
+Elapsed time = 2765.68 sec. (2211313.80 ticks, tree = 4.09 MB, solutions = 1)
+    282   284    13701.1306   662    78163.3604    13358.9234  5524524   82.91%
+    286   288    13708.3169   676    78163.3604    13358.9234  5589358   82.91%
+    290   292    13773.5104   665    78163.3604    13358.9234  5633341   82.91%
+    294   296    14120.2671   707    78163.3604    13358.9234  5707121   82.91%
+    298   300    13757.9674   691    78163.3604    13358.9234  5781200   82.91%
+    302   304    13767.3536   673    78163.3604    13358.9234  5849046   82.91%
+    306   308    13781.3897   708    78163.3604    13358.9234  5924885   82.91%
+    310   312    13791.3921   669    78163.3604    13358.9234  5982061   82.91%
+    330   332    14276.1881   474    78163.3604    13358.9234  6262513   82.91%
+    338   340    14258.4680   402    78163.3604    13358.9234  6396738   82.91%
+Elapsed time = 2955.85 sec. (2346036.30 ticks, tree = 4.09 MB, solutions = 1)
+    351   353    14191.5060   439    78163.3604    13358.9234  6564402   82.91%
+    352   354    13806.1843   679    78163.3604    13358.9234  6587094   82.91%
+    356   358    13827.7418   662    78163.3604    13358.9234  6666150   82.91%
+    360   362    13856.9713   650    78163.3604    13358.9234  6757937   82.91%
+    364   366    13874.4930   524    78163.3604    13358.9234  6826808   82.91%
+    368   370    13877.2011   538    78163.3604    13358.9234  6891862   82.91%
+    372   374    13891.5104   647    78163.3604    13358.9234  6958811   82.91%
+    376   378    13884.6558   587    78163.3604    13358.9234  7048007   82.91%
+    380   382    14278.5800   672    78163.3604    13358.9234  7130660   82.91%
+    384   386    13897.0403   595    78163.3604    13358.9234  7217156   82.91%
+Elapsed time = 3228.93 sec. (2530434.99 ticks, tree = 5.16 MB, solutions = 1)
+    388   390    13891.3075   567    78163.3604    13358.9234  7302819   82.91%
+    392   394    13895.3254   606    78163.3604    13358.9234  7408211   82.91%
+    396   398    13895.5477   601    78163.3604    13358.9234  7490398   82.91%
+    443   445    14404.4155   329    78163.3604    13358.9234  8282621   82.91%
+    444   446    13959.0972   537    78163.3604    13358.9234  8358139   82.91%
+    448   450    13984.7292   512    78163.3604    13358.9234  8444530   82.91%
+    452   454    13985.0007   511    78163.3604    13358.9234  8499370   82.91%
+    456   458    13985.3187   502    78163.3604    13358.9234  8545494   82.91%
+    460   462    13990.8523   520    78163.3604    13358.9234  8610911   82.91%
+    464   466    14005.5800   513    78163.3604    13358.9234  8708718   82.91%
+Elapsed time = 3439.35 sec. (2677945.82 ticks, tree = 6.66 MB, solutions = 1)
+    468   470    14011.1375   484    78163.3604    13358.9234  8769759   82.91%
+    472   474    14051.4470   484    78163.3604    13358.9234  8844135   82.91%
+    476   478    14041.0833   495    78163.3604    13358.9234  8936799   82.91%
+    480   482    14053.7910   430    78163.3604    13358.9234  8979891   82.91%
+    484   486    14062.8285   448    78163.3604    13358.9234  9036271   82.91%
+    488   490    14061.2071   549    78163.3604    13358.9234  9089893   82.91%
+    492   494    14068.7688   440    78163.3604    13358.9234  9151132   82.91%
+    496   498    14076.6078   508    78163.3604    13358.9234  9254959   82.91%
+    500   502    14109.5499   436    78163.3604    13358.9234  9325013   82.91%
+    541   543    14833.9768   294    78163.3604    13358.9234  9848712   82.91%
+Elapsed time = 3600.02 sec. (2789806.23 ticks, tree = 6.66 MB, solutions = 1)
+    561   561    15674.5220   332    78163.3604    13358.9234 10094632   82.91%
+
+Implied bound cuts applied:  159
+Flow cuts applied:  421
+Mixed integer rounding cuts applied:  139
+Flow path cuts applied:  5
+Zero-half cuts applied:  10
+Gomory fractional cuts applied:  4
+
+Root node processing (before b&c):
+  Real time             =  815.69 sec. (814429.74 ticks)
+Parallel b&c, 4 threads:
+  Real time             = 2784.34 sec. (1986421.39 ticks)
+  Sync time (average)   =  176.26 sec.
+  Wait time (average)   =  176.27 sec.
+                          ------------
+Total (root+branch&cut) = 3600.03 sec. (2800851.13 ticks)
+Solution status = Feasible
+Solution value  = 78163.4
+Валидируем решение
+Удаляем вершину: 70
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 5325 rows and 5185 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (2.27 ticks)
+Удаляем вершину: 71
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 5325 rows and 5185 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (2.25 ticks)
+Удаляем вершину: 72
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 5325 rows and 5185 columns.
+All rows and columns eliminated.
+Presolve time = 0.00 sec. (2.23 ticks)

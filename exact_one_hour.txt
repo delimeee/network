@@ -1,0 +1,161 @@
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 222 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5247 rows, 7662 columns, and 25122 nonzeros.
+Presolve time = 0.01 sec. (7.76 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   253   Dual objective     =   89138479469.857880
+Perturbation started.
+Iteration:   303   Dual objective     =   89138479469.857758
+Iteration:   478   Dual objective     =   89138479469.861160
+Iteration:   613   Dual objective     =   89138479469.863312
+Iteration:   743   Dual objective     =   89138479469.865646
+Iteration:   906   Dual objective     =   89138479469.868912
+Iteration:  1062   Dual objective     =   89138479469.874863
+Iteration:  1221   Dual objective     =   89138479469.881851
+Iteration:  1386   Dual objective     =   89549295327.882660
+Iteration:  1532   Dual objective     =   89549295327.886734
+Iteration:  1645   Dual objective     =   89549295327.888611
+Iteration:  1778   Dual objective     =   89549295327.890808
+Iteration:  1916   Dual objective     =   93784351052.468430
+Iteration:  2061   Dual objective     =   93806390596.051285
+Iteration:  2205   Dual objective     =   94268330573.058319
+Iteration:  2327   Dual objective     =   94268330573.059494
+Iteration:  2444   Dual objective     =   94268330573.060944
+Iteration:  2600   Dual objective     =   94889963217.725418
+Iteration:  2758   Dual objective     =   94889963217.736389
+Iteration:  2879   Dual objective     =   95714637057.829849
+Iteration:  3004   Dual objective     =   95724704425.144211
+Iteration:  3139   Dual objective     =   95724704425.150391
+Iteration:  3280   Dual objective     =   95728309649.240570
+Removing perturbation.
+Using devex.
+
+Barrier solved model.
+
+Solution status: Optimal
+Objective value: 9.66575e+10
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 1992 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5439 rows, 7662 columns, and 193498 nonzeros.
+Presolve time = 0.08 sec. (173.09 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   186   Dual objective     =   88191935544.446732
+Perturbation started.
+Iteration:   404   Dual objective     =   94176453242.976349
+Iteration:   542   Dual objective     =   94176453242.978867
+Iteration:   677   Dual objective     =   94176453242.981766
+Iteration:   820   Dual objective     =   94176453242.984695
+Iteration:   975   Dual objective     =   94176453242.990265
+Iteration:  1154   Dual objective     =   94176453242.997070
+Iteration:  1318   Dual objective     =   94176453243.004669
+Iteration:  1518   Dual objective     =   94176453243.027466
+Iteration:  1708   Dual objective     =   94176453243.031754
+Iteration:  1934   Dual objective     =   99329833359.796036
+Iteration:  2134   Dual objective     =   99329833359.805542
+Iteration:  2335   Dual objective     =   99329833359.816788
+Iteration:  2543   Dual objective     =   99621030291.329269
+Iteration:  2768   Dual objective     =  100303032233.380219
+Iteration:  2976   Dual objective     =  100303032233.414276
+Iteration:  3265   Dual objective     =  100641344945.423172
+Iteration:  3523   Dual objective     =  100924735575.558853
+Iteration:  3787   Dual objective     =  101204993109.764435
+Iteration:  4141   Dual objective     =  101816524539.198715
+Iteration:  4369   Dual objective     =  101826082431.636734
+Iteration:  4613   Dual objective     =  101963176920.862015
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.01993e+11
+Float model size:
+Concert Env Memory Usage: 0.0499543 GB
+Количество ограничений: 1962
+Память вектора: 0.000233911 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 2214 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5472 rows, 7662 columns, and 229761 nonzeros.
+Presolve time = 0.10 sec. (207.88 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   179   Dual objective     =   87397374834.774078
+Iteration:   431   Dual objective     =   95494289301.903366
+Iteration:   630   Dual objective     =   95499059993.211502
+Iteration:   785   Dual objective     =   95499059993.211517
+Perturbation started.
+Iteration:   808   Dual objective     =   95499059993.211502
+Iteration:   927   Dual objective     =   95499059993.218689
+Iteration:  1065   Dual objective     =   95499059993.231216
+Iteration:  1209   Dual objective     =   95499059993.236572
+Iteration:  1353   Dual objective     =   95499059993.243866
+Iteration:  1536   Dual objective     =   95582491738.619034
+Iteration:  1763   Dual objective     =   99579062706.501175
+Iteration:  1978   Dual objective     =  100549458151.745026
+Iteration:  2159   Dual objective     =  100549458151.751373
+Iteration:  2335   Dual objective     =  100549458151.754532
+Iteration:  2547   Dual objective     =  101080355793.899780
+Iteration:  2739   Dual objective     =  101080355793.903809
+Iteration:  2947   Dual objective     =  101201188420.090820
+Iteration:  3171   Dual objective     =  101632237306.203461
+Iteration:  3436   Dual objective     =  101911401264.915878
+Iteration:  3655   Dual objective     =  101911401264.922302
+Iteration:  3918   Dual objective     =  101988622098.242676
+Iteration:  4132   Dual objective     =  102057912640.098877
+Iteration:  4383   Dual objective     =  102057912640.104263
+Iteration:  4587   Dual objective     =  102147746841.745850
+Iteration:  4836   Dual objective     =  102265915124.200577
+Removing perturbation.
+Reinitializing dual norms . . .
+
+Dual simplex solved model.
+
+Solution status: Optimal
+Objective value: 1.02267e+11
+Float model size:
+Concert Env Memory Usage: 0.0566521 GB
+Количество ограничений: 255
+Память вектора: 0.0004678 GB
+Parallel mode: deterministic, using up to 4 threads for concurrent optimization.
+Tried aggregator 1 time.
+LP Presolve eliminated 2392 rows and 151 columns.
+Aggregator did 2556 substitutions.
+Reduced LP has 5512 rows, 7662 columns, and 275776 nonzeros.
+Presolve time = 0.12 sec. (243.33 ticks)
+Initializing dual steep norms . . .
+
+Iteration log . . .
+Iteration:     1   Dual objective     =             0.000000
+Iteration:   188   Dual objective     =   86344400295.364319
+Iteration:   364   Dual objective     =   96817868637.362289
+Perturbation started.
+Iteration:   505   Dual objective     =   97082633094.225555
+Iteration:   634   Dual objective     =   97082633094.227783
+Iteration:   771   Dual objective     =   97082633094.231064
+Iteration:   914   Dual objective     =   97082633094.235764
+Iteration:  1066   Dual objective     =   97082633094.243927
+Iteration:  1226   Dual objective     =   97082633094.248260
+Iteration:  1400   Dual objective     =   97082633094.256973
+Iteration:  1584   Dual objective     =   97082633094.269531
+Iteration:  1795   Dual objective     =  100711566026.441544
+Iteration:  2006   Dual objective     =  100958548826.545776
+Iteration:  2275   Dual objective     =  101763755138.998169
+Iteration:  2469   Dual objective     =  101763755139.010193
+Iteration:  2692   Dual objective     =  102902916843.555740
+
+
+Я случайно всё удалил

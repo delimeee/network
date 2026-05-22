@@ -211,7 +211,3 @@ void OptimizationModel::print_model_size() {
     double gigabytes = static_cast<double>(bytes) / (1024.0 * 1024.0 * 1024.0);
     std::cout << "Concert Env Memory Usage: " << gigabytes << " GB" << std::endl;
 }
-
-void OptimizationModel::clear() {
-    env.end();
-}
