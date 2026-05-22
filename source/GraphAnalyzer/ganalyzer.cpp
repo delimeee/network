@@ -381,11 +381,11 @@ GraphAnalyzer::find_all_violations(Graph& g) {
     // for(size_t i = 0; i != g.size(); ++i) {
     //     constrains.append_range(many_bfs(g, i, false));
     // }
-
     //New search
     for(size_t i = 0; i != g.size(); ++i) {
         constrains.append_range(greedy_best_first_search(g, i));
     }
+
 
     return constrains;
 }

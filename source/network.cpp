@@ -29,10 +29,10 @@ int main() {
     for(size_t i = 0; i != nodes_amount; ++i) {
         for(size_t j = 0; j != nodes_amount; ++j) {
             if(i != j) {
-                graph(i, j).cost = 1;
+                graph(i, j).cost = COST;
                 graph(i, j).max_flow = MAX_FLOW;
             } else {
-                graph(i, j).cost = 1.e8;
+                graph(i, j).cost = 1.e18;
                 graph(i, j).max_flow = 0;
             } 
         }

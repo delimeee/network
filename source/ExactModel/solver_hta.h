@@ -22,6 +22,7 @@ class SolverMT {
             const std::vector<std::pair<std::unordered_set<size_t>, double>>&
         );
 		void add_mip_start(const Graph& g);
+		void print_model_size();
 
 	private:
 		int n;

@@ -30,6 +30,8 @@ class OptimizationModel {
         );
         IloModel& get_model();
         bool solve();
+        void print_model_size();
+        void clear();
 };
 
 #endif

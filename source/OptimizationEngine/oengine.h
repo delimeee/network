@@ -10,8 +10,6 @@
 class OptimizationEngine {
     private:
         Graph graph;
-        OptimizationModel model;
-        GraphAnalyzer graph_analyzer;
         bool solve_status;
         bool survivable_network;
         size_t iterations;

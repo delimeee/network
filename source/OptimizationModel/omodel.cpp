@@ -152,6 +152,7 @@ OptimizationModel::~OptimizationModel() {
 }
 
 bool OptimizationModel::solve() {
+    cplex.setParam(IloCplex::Param::WorkMem, 4096);
     cplex.extract(model);
     cplex.exportModel("model.lp");
     bool status = cplex.solve();
@@ -193,8 +194,24 @@ void OptimizationModel::add_survivable_constraint(const std::unordered_set<size_
 void OptimizationModel::add_survivable_constraint(
     const std::vector<std::pair<std::unordered_set<size_t>, double>>& constrains
 ) {
+    if(!constrains.size()) {
+        return;
+    }
     for(auto& constraint: constrains) {
         auto& [nodes, rvalue] = constraint;
         OptimizationModel::add_survivable_constraint(nodes, rvalue);
     }
+}
+
+
+void OptimizationModel::print_model_size() {
+    // Получаем объем используемой памяти в байтах
+    IloInt64 bytes = env.getMemoryUsage();
+    
+    double gigabytes = static_cast<double>(bytes) / (1024.0 * 1024.0 * 1024.0);
+    std::cout << "Concert Env Memory Usage: " << gigabytes << " GB" << std::endl;
+}
+
+void OptimizationModel::clear() {
+    env.end();
 }

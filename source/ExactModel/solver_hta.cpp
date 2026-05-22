@@ -75,7 +75,7 @@ SolverMT::SolverMT(Graph& g, bool is_huinya_ebanaya) :
         for (int j = i; j < n + m; j++) {
             string name = "z_" + to_string(i) + "_" + to_string(j);
             // Явно указываем границы и тип, чтобы CPLEX корректно работал в режиме LP
-            z[i][j] = IloNumVar(env, 0.0, 1.0, ILOFLOAT, name.c_str());
+            z[i][j] = IloNumVar(env, 0.0, 1.0, HUINYA, name.c_str());
             z[j][i] = z[i][j]; 
         }
     }
@@ -235,6 +235,9 @@ void SolverMT::add_survivable_constraint(const std::unordered_set<size_t>& nodes
 void SolverMT::add_survivable_constraint(
     const std::vector<std::pair<std::unordered_set<size_t>, double>>& constrains
 ) {
+	if(constrains.empty()) {
+		return;
+	}
     for(auto& constraint: constrains) {
         auto& [nodes, rvalue] = constraint;
         SolverMT::add_survivable_constraint(nodes, rvalue);
@@ -254,4 +257,12 @@ void SolverMT::add_mip_start(const Graph& g) {
 
 	cplex.extract(model);
 	cplex.addMIPStart(startVars, startValues);
+}
+
+void SolverMT::print_model_size() {
+    // Получаем объем используемой памяти в байтах
+    IloInt64 bytes = env.getMemoryUsage();
+    
+    double gigabytes = static_cast<double>(bytes) / (1024.0 * 1024.0 * 1024.0);
+    std::cout << "Concert Env Memory Usage: " << gigabytes << " GB" << std::endl;
 }
