@@ -182,7 +182,7 @@ SolverMT::~SolverMT() {
 
 bool SolverMT::solve() {
 	cplex.extract(model);
-	cplex.setParam(IloCplex::Param::TimeLimit, 3600.0);
+	cplex.setParam(IloCplex::Param::TimeLimit, 36000.0);
 	bool res;
 	try {
 		res = cplex.solve();
