@@ -12,6 +12,7 @@ void write_graph(const Graph& g);
 void print_graph(const Graph& g);
 
 int main() {
+    // читаем граф
     size_t nodes_amount;
     std::cin >> nodes_amount;
 
@@ -38,6 +39,7 @@ int main() {
         }
     }
 
+    // решаем
     OptimizationEngine eng(graph);
     eng.run();
 

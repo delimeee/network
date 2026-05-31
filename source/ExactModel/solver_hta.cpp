@@ -9,14 +9,13 @@
 
 #define EPSILON ERROR
 
-SolverMT::SolverMT(Graph& g, bool is_huinya_ebanaya) : 
+SolverMT::SolverMT(Graph& g, bool is_float_model) : 
     graph(g),
     env{}, 
     model(env),
-    cplex{env},
-    is_float(true) 
+    cplex{env}
 {	
-	auto HUINYA = is_huinya_ebanaya ? ILOFLOAT : ILOINT;
+	const auto VARIABLE_TYPE = is_float_model ? ILOFLOAT : ILOINT;
 	n = 0;
 	m = 0;
 	for(size_t i = 0; i != g.size(); ++i) {
@@ -48,17 +47,13 @@ SolverMT::SolverMT(Graph& g, bool is_huinya_ebanaya) :
     for (int i = 0; i < n + m; i++)
         z_sol[i] = IloNumArray(env, n + m);
 
-    // 1. ИСПРАВЛЕНО: Убрали повторное объявление типа (было IloArray<...> x). 
-    // Теперь пишем напрямую в поле класса.
     x = IloArray<IloArray<IloNumVarArray>>(env, m);
     for (int k = 0; k < m; k++) {
-        // ИСПРАВЛЕНО: Изменено с IloBoolVarArray на IloNumVarArray
         x[k] = IloArray<IloNumVarArray>(env, n + m);
         for (int i = 0; i < n + m; i++)
-            x[k][i] = IloNumVarArray(env, n + m,  0.0, 1.0, HUINYA);
+            x[k][i] = IloNumVarArray(env, n + m,  0.0, 1.0, VARIABLE_TYPE);
     }
 
-    // 2. ИСПРАВЛЕНО: Убрали повторное объявление типа для y
     y = IloArray<IloArray<IloNumVarArray>>(env, m);
     for (int k = 0; k < m; k++) {
         y[k] = IloArray<IloNumVarArray>(env, n + m);
@@ -66,16 +61,15 @@ SolverMT::SolverMT(Graph& g, bool is_huinya_ebanaya) :
             y[k][i] = IloNumVarArray(env, n + m, 0, MAX_FLOW);
     }
 
-    // 3. ИСПРАВЛЕНО: Убрали повторное объявление типа для z
     z = IloArray<IloNumVarArray>(env, n + m);
     for (int i = 0; i < n + m; i++)
-        z[i] = IloNumVarArray(env, n + m, 0.0, 1.0, HUINYA);
+        z[i] = IloNumVarArray(env, n + m, 0.0, 1.0, VARIABLE_TYPE);
 
     for (int i = 0; i < n + m; i++) {
         for (int j = i; j < n + m; j++) {
             string name = "z_" + to_string(i) + "_" + to_string(j);
             // Явно указываем границы и тип, чтобы CPLEX корректно работал в режиме LP
-            z[i][j] = IloNumVar(env, 0.0, 1.0, HUINYA, name.c_str());
+            z[i][j] = IloNumVar(env, 0.0, 1.0, VARIABLE_TYPE, name.c_str());
             z[j][i] = z[i][j]; 
         }
     }
@@ -194,9 +188,6 @@ bool SolverMT::solve() {
 	cout << "Solution status = " << cplex.getStatus() << endl;
 	if (res) {
 		cout << "Solution value  = " << cplex.getObjValue() << endl;
-		if (!is_float) {
-            cout << "Solution relative gap = " << cplex.getMIPRelativeGap()*100 << "%" << endl;
-        }
 
 		for (int i = 0; i < n + m; i++) {
         	cplex.getValues(z_sol[i], z[i]);
@@ -258,12 +249,4 @@ void SolverMT::add_mip_start(const Graph& g) {
 
 	cplex.extract(model);
 	cplex.addMIPStart(startVars, startValues);
-}
-
-void SolverMT::print_model_size() {
-    // Получаем объем используемой памяти в байтах
-    IloInt64 bytes = env.getMemoryUsage();
-    
-    double gigabytes = static_cast<double>(bytes) / (1024.0 * 1024.0 * 1024.0);
-    std::cout << "Concert Env Memory Usage: " << gigabytes << " GB" << std::endl;
 }

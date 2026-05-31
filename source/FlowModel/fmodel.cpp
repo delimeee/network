@@ -63,18 +63,6 @@ FlowModel::FlowModel(const Graph& g, const std::unordered_set<size_t> nodes):
         // std::cout << y[i][i] << '=' << 0.0 << std::endl; //DEBUG
         // std::cout << f[i][i] << '=' << 0.0 << std::endl; //DEBUG
     }
-
-    // Exclude a node
-    // for(size_t i = 0; i != graph.size(); ++i) {
-    //     if(!nodes.contains(i)) {
-    //        continue; 
-    //     }
-
-    //     for(size_t j = 0; j != graph.size(); ++j) {
-    //         model.add(f[i][j] == 0.0);
-    //         model.add(f[j][i] == 0.0);
-    //     }
-    // }
 }
 
 bool FlowModel::solve() {

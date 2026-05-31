@@ -2,13 +2,12 @@
 #include "../Graph/graph.h"
 #include "../constants.h"
 #include "../FlowModel/fmodel.h"
-#include<queue>
 #include<vector>
 #include<cmath>
 #include<iostream>
 #include<algorithm>
 
-double lvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
+double GraphAnalyzer::lvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
     double result = 0;
     for(auto& v : sub_graph) {
         for(size_t i = 0; i != g.size(); ++i) {
@@ -20,7 +19,7 @@ double lvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
     return result;
 }
 
-double rvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
+double GraphAnalyzer::rvalue_constraint_station(Graph& g, std::unordered_set<size_t>& sub_graph) {
     double production{0};
     double consumption{0};
     double max_production{0};
@@ -39,7 +38,7 @@ double rvalue_constraint(Graph& g, std::unordered_set<size_t>& sub_graph) {
     return -std::ceil(numerator / MAX_FLOW);
 }
 
-double rvalue_constraint_second(Graph& g, std::unordered_set<size_t>& sub_graph) {
+double GraphAnalyzer::rvalue_constraint_line(Graph& g, std::unordered_set<size_t>& sub_graph) {
     double production{0};
     double consumption{0};
     for(auto& v : sub_graph) {
@@ -56,16 +55,13 @@ double rvalue_constraint_second(Graph& g, std::unordered_set<size_t>& sub_graph)
     return -std::ceil(numerator / MAX_FLOW) + 1;
 }
 
-std::optional<std::pair<std::unordered_set<size_t>, double>> heuristic(
+std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::heuristic(
     Graph& g,
     std::unordered_set<size_t> checked
 ) {
     double lval = lvalue_constraint(g, checked);
-    double rval = rvalue_constraint(g, checked);
-    double rval_second = rvalue_constraint_second(g, checked);
-    // if(std::abs(lval - rval) >= ERROR && lval < rval) {
-    //     return std::make_optional(std::pair{checked, rval});
-    // }
+    double rval = rvalue_constraint_station(g, checked);
+    double rval_second = rvalue_constraint_line(g, checked);
     if(
         std::abs(lval - std::max(rval, rval_second)) >= ERROR 
         && lval < std::max(rval, rval_second)
@@ -75,208 +71,7 @@ std::optional<std::pair<std::unordered_set<size_t>, double>> heuristic(
     return std::nullopt;
 }
 
-std::optional<std::pair<std::unordered_set<size_t>, double>> bfs(
-    Graph& g,
-    size_t start,
-    bool many_ps=true
-) {
-    std::queue<size_t> q;
-    std::unordered_set<size_t> checked;
-    checked.insert(start);
-    q.push(start);
-
-    while (!q.empty()) {
-        size_t v = q.front();
-        q.pop();
-        for (size_t i = 0; i != g.size(); ++i) {
-            if(
-                g(v, i).value <= ERROR ||
-                (!many_ps && g[i].type == NodeType::PowerStation)
-            ) {
-                continue;
-            } if(!checked.contains(i)) {
-                checked.insert(i);
-                q.push(i);
-            }
-
-            auto res = heuristic(g, checked);
-            if(res.has_value()) {
-                return res;
-            }
-        }
-    }
-
-    return std::nullopt;
-}
-
-std::optional<std::pair<std::unordered_set<size_t>, double>> dfs(
-    Graph& g,
-    size_t cur,
-    std::unordered_set<size_t>& checked,
-    bool many_ps=true
-) {
-
-    checked.insert(cur);
-
-    auto res = heuristic(g, checked);
-    if(res.has_value()) {
-        return res;
-    }
-    
-    for(size_t i = 0; i != g.size(); ++i) {
-        if(
-            !checked.contains(i) &&
-            g(cur, i).value > ERROR &&
-            (many_ps || g[i].type == NodeType::City)
-        ) {
-            auto res = dfs(g, i, checked);
-            if(res.has_value()) {
-                return res;
-            }
-        }
-    }
-
-    return std::nullopt;
-}
-
-std::vector<std::pair<std::unordered_set<size_t>, double>> many_bfs(
-    Graph& g,
-    size_t start,
-    bool many_ps=true
-) {
-    std::vector<std::pair<std::unordered_set<size_t>, double>> result;
-    std::queue<size_t> q;
-    std::unordered_set<size_t> checked;
-    checked.insert(start);
-    q.push(start);
-
-    while (!q.empty()) {
-        size_t v = q.front();
-        q.pop();
-        for (size_t i = 0; i != g.size(); ++i) {
-            if(
-                g(v, i).value <= ERROR ||
-                (!many_ps && g[i].type == NodeType::PowerStation)
-            ) {
-                continue;
-            } if(!checked.contains(i)) {
-                checked.insert(i);
-                q.push(i);
-            }
-
-            auto res = heuristic(g, checked);
-            if(res.has_value()) {
-                result.push_back(res.value());
-            }
-        }
-    }
-
-    return result;
-}
-
-std::vector<std::pair<std::unordered_set<size_t>, double>> many_dfs(
-    Graph& g,
-    size_t cur,
-    std::unordered_set<size_t>& checked,
-    bool many_ps=true
-) {
-    std::vector<std::pair<std::unordered_set<size_t>, double>> result;
-    checked.insert(cur);
-
-    auto res = heuristic(g, checked);
-    if(res.has_value()) {
-        result.push_back(res.value());
-    }
-    
-    for(size_t i = 0; i != g.size(); ++i) {
-        if(
-            !checked.contains(i) &&
-            g(cur, i).value > ERROR &&
-            (many_ps || g[i].type == NodeType::City)
-        ) {
-            auto res = dfs(g, i, checked);
-            if(res.has_value()) {
-                result.push_back(res.value());
-            }
-        }
-    }
-
-    return result;
-}
-
-std::optional<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::find_violation(Graph& g) {
-    // Power stations only
-    std::unordered_set<size_t> ps;
-    for(size_t i = 0; i != g.size(); ++i) {
-        if(g[i].type == NodeType::PowerStation) {
-            ps.insert(i);
-        }
-    }
-    for(auto& station: ps) {
-        std::unordered_set<size_t> checked;
-        auto res = dfs(g, station, checked, false);
-        if (res.has_value()) {
-            return res;
-        }
-    }
-
-    // for(auto& station: ps) {
-    //     auto res = bfs(g, station, false);
-    //     if(res.has_value()) {
-    //         return res;
-    //     }
-    // }
-
-    // for(auto& station: ps) {
-    //     auto res = bfs(g, station);
-    //     if (res.has_value()) {
-    //         return res;
-    //     }
-    // }
-
-    // for(auto& station: ps) {
-    //     std::unordered_set<size_t> checked;
-    //     auto res = dfs(g, station, checked);
-    //     if (res.has_value()) {
-    //         return res;
-    //     }
-    // }
-
-    // Every node
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     std::unordered_set<size_t> checked;
-    //     auto res = dfs(g, i, checked, false);
-    //     if (res.has_value()) {
-    //         return res;
-    //     }
-    // }
-
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     std::unordered_set<size_t> checked;
-    //     auto res = dfs(g, i, checked);
-    //     if (res.has_value()) {
-    //         return res;
-    //     }
-    // }
-
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     auto res = bfs(g, i, false);
-    //     if (res.has_value()) {
-    //         return res;
-    //     }
-    // }
-
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     auto res = bfs(g, i, true);
-    //     if (res.has_value()) {
-    //         return res;
-    //     }
-    // }
-    
-    return std::nullopt;
-}
-
-double calc_connectivity(
+double GraphAnalyzer::calc_connectivity(
     Graph& g,
     std::unordered_set<size_t> subset,
     size_t cur 
@@ -295,7 +90,7 @@ double calc_connectivity(
     return result;
 }
 
-std::vector<std::pair<std::unordered_set<size_t>, double>> greedy_best_first_search(
+std::vector<std::pair<std::unordered_set<size_t>, double>> GraphAnalyzer::greedy_best_first_search(
     Graph& g,
     size_t start
 ) {
@@ -315,24 +110,17 @@ std::vector<std::pair<std::unordered_set<size_t>, double>> greedy_best_first_sea
             result.push_back(res.value());
         }
     
-    // std::cout << "Current node:" << ' ' << start << '\n';
     while (subset.size() < g.size()) {
         for(auto& [num, conn]: connectivity) {
             conn = calc_connectivity(g, subset, num);
         }
         std::sort(connectivity.begin(), connectivity.end(), 
         [](const auto& a, const auto& b) {
-            // Если связность разная — сортируем по ней (по возрастанию)
             if (std::abs(a.second - b.second) > ERROR) { 
                 return a.second < b.second;
             }
-            // Если связность одинаковая — форсируем строгий порядок по ID узла
             return a.first < b.first; 
         });
-        // for(const auto& [num, val]: connectivity) {
-        //     std::cout << num + 1 << ':' << val << ' ';
-        // }
-        // std::cout << '\n';
 
         auto [best, best_val] = connectivity.back();
         subset.insert(best);
@@ -343,10 +131,6 @@ std::vector<std::pair<std::unordered_set<size_t>, double>> greedy_best_first_sea
             result.push_back(res.value());
         }
 
-        // for(const auto& node: subset) {
-        //     std::cout << node + 1 << ' ';
-        // }
-        // std::cout << '\n';
     }
 
     return result;
@@ -355,32 +139,6 @@ std::vector<std::pair<std::unordered_set<size_t>, double>> greedy_best_first_sea
 std::vector<std::pair<std::unordered_set<size_t>, double>> 
 GraphAnalyzer::find_all_violations(Graph& g) {
     std::vector<std::pair<std::unordered_set<size_t>, double>> constrains;
-    //Power stations only
-    // std::unordered_set<size_t> ps;
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     if(g[i].type == NodeType::PowerStation) {
-    //         ps.insert(i);
-    //     }
-    // }
-    
-    // Every node
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     std::unordered_set<size_t> checked;
-    //     constrains.append_range(many_dfs(g, i, checked));
-    // }
-
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     std::unordered_set<size_t> checked;
-    //     constrains.append_range(many_dfs(g, i, checked, false));
-    // }
-
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     constrains.append_range(many_bfs(g, i));
-    // }
-
-    // for(size_t i = 0; i != g.size(); ++i) {
-    //     constrains.append_range(many_bfs(g, i, false));
-    // }
     //New search
     for(size_t i = 0; i != g.size(); ++i) {
         constrains.append_range(greedy_best_first_search(g, i));
@@ -400,7 +158,6 @@ bool GraphAnalyzer::validate_solution(const Graph& g) {
                 return false;
             }
         }
-        //std::cout << "Валидируем решение" << '\n';
     }
 
     return true;

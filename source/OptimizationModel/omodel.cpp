@@ -202,12 +202,3 @@ void OptimizationModel::add_survivable_constraint(
         OptimizationModel::add_survivable_constraint(nodes, rvalue);
     }
 }
-
-
-void OptimizationModel::print_model_size() {
-    // Получаем объем используемой памяти в байтах
-    IloInt64 bytes = env.getMemoryUsage();
-    
-    double gigabytes = static_cast<double>(bytes) / (1024.0 * 1024.0 * 1024.0);
-    std::cout << "Concert Env Memory Usage: " << gigabytes << " GB" << std::endl;
-}
