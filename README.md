@@ -52,13 +52,6 @@ make
 
 ## Примеры
 Можно запустить тестовые примеры командами:
-```
-cat ./input/main | ./build/network
-```
-
-```
-cat ./input/test1 | ./build/network
-```
 
 ```
 cat ./input/test2 | ./build/network
@@ -67,7 +60,7 @@ cat ./input/test2 | ./build/network
 
 Далее, после запуска виртуального окружения, можно отрисовать граф командой:
 ```
-python ./source/draw.py
+python draw.py
 ```
 Подробнее про отрисовку [тут](#отрисовка-графа).
 
@@ -119,10 +112,12 @@ pip install -r requirements.txt
 
 Запустить скрипт **draw.py**:
 ```
-python ./source/draw.py
+python draw.py
 ```
 
-Изображение **graph.svg** сохраняется в директории **output** и отрывается окно с графом.
+```
+python draw.py <название-файла-в-output> # например output.txt, а не output/output.txt
+```
 
 # Математическая модель
 
