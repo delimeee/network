@@ -1,4 +1,4 @@
-build/*
+
 object/*
 articles/*
 source/cheat_sheet.cpp
