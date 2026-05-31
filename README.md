@@ -52,9 +52,12 @@ make
 
 ## Примеры
 Можно запустить тестовые примеры командами:
-
 ```
-cat ./input/test2 | ./build/network
+make run
+```
+или
+```
+cat ./input/main.txt| ./build/network
 ```
 Результаты вычислений записываются в директории **output** с именем **output.txt**.
 
