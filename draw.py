@@ -8,7 +8,7 @@ DEFAULT_OUTPUT_FILE = 'output.txt'
 if len(sys.argv) > 1:
     DEFAULT_OUTPUT_FILE = sys.argv[1]
 
-fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+# fig, axes = plt.subplots(1, 2, figsize=(12, 6))
 
 g = nx.Graph()
 dg = nx.DiGraph()
@@ -62,59 +62,59 @@ with open(OUTPUT_DIR + DEFAULT_OUTPUT_FILE, 'r') as f:
 
                 edge_labels_dir[(i, int(to))] = f'flw:{flow}'
 
-nx.draw(
-    g,
-    pos=pos,
-    labels=node_labels,
-    node_color=node_colors,
-    with_labels=True,
-    ax=axes[0]
-)
-nx.draw(
-    dg,
-    pos=pos,
-    labels=node_labels,
-    node_color=node_colors,
-    with_labels=True,
-    ax=axes[1]
-)
-nx.draw_networkx_edge_labels(
-    g,
-    pos,
-    edge_labels=edge_labels_undir,
-    ax=axes[0],
-    rotate=False,
-    font_size=8,
-    bbox=dict(facecolor='white', alpha=0.7, pad=0.2),
-)
-nx.draw_networkx_edge_labels(
-    dg, pos,
-    edge_labels=edge_labels_dir,
-    label_pos=0.6,
-    rotate=False,
-    font_size=8,
-    bbox=dict(facecolor='white', alpha=0.7, pad=0.2),
-    ax=axes[1]
-)
-plt.show()
+# nx.draw(
+#     g,
+#     pos=pos,
+#     labels=node_labels,
+#     node_color=node_colors,
+#     with_labels=True,
+#     ax=axes[0]
+# )
+# nx.draw(
+#     dg,
+#     pos=pos,
+#     labels=node_labels,
+#     node_color=node_colors,
+#     with_labels=True,
+#     ax=axes[1]
+# )
+# nx.draw_networkx_edge_labels(
+#     g,
+#     pos,
+#     edge_labels=edge_labels_undir,
+#     ax=axes[0],
+#     rotate=False,
+#     font_size=8,
+#     bbox=dict(facecolor='white', alpha=0.7, pad=0.2),
+# )
+# nx.draw_networkx_edge_labels(
+#     dg, pos,
+#     edge_labels=edge_labels_dir,
+#     label_pos=0.6,
+#     rotate=False,
+#     font_size=8,
+#     bbox=dict(facecolor='white', alpha=0.7, pad=0.2),
+#     ax=axes[1]
+# )
+# plt.show()
 
 
-nx.draw(
-    dg,
-    pos=pos,
-    labels=node_labels,
-    node_color=node_colors,
-    with_labels=True,
-)
-nx.draw_networkx_edge_labels(
-    dg, pos,
-    edge_labels=edge_labels_dir,
-    label_pos=0.7,
-    rotate=False,
-    # font_size=8,
-    bbox=dict(facecolor='white', alpha=0.7, pad=0.2),
-)
-plt.show()
+# nx.draw(
+#     dg,
+#     pos=pos,
+#     labels=node_labels,
+#     node_color=node_colors,
+#     with_labels=True,
+# )
+# nx.draw_networkx_edge_labels(
+#     dg, pos,
+#     edge_labels=edge_labels_dir,
+#     label_pos=0.7,
+#     rotate=False,
+#     # font_size=8,
+#     bbox=dict(facecolor='white', alpha=0.7, pad=0.2),
+# )
+# plt.show()
 
 nx.draw(
     g,

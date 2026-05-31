@@ -1,10 +1,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
-#include<vector>
-enum class NodeType {
-    City,
-    PowerStation
-};
+#include <vector>
+enum class NodeType { City, PowerStation };
 
 struct Node {
     double x;
@@ -31,23 +28,23 @@ struct Edge {
 };
 
 class Graph {
-    private:
-        std::vector<std::vector<Edge>> adj;
-        std::vector<Node> nodes;
-    public:
-        Graph();
-        Graph(size_t n);
-        Graph(const std::vector<Node>& nodes);
+   private:
+    std::vector<std::vector<Edge>> adj;
+    std::vector<Node> nodes;
 
-        Edge& operator()(size_t, size_t);
-        const Edge& operator()(size_t, size_t) const;
+   public:
+    Graph();
+    Graph(size_t n);
+    Graph(const std::vector<Node>& nodes);
 
-        Node& operator[](size_t);
-        const Node& operator[](size_t) const;
+    Edge& operator()(size_t, size_t);
+    const Edge& operator()(size_t, size_t) const;
 
-        size_t size() const;
+    Node& operator[](size_t);
+    const Node& operator[](size_t) const;
 
-        bool has_edge(size_t, size_t) const;
+    size_t size() const;
 
+    bool has_edge(size_t, size_t) const;
 };
 #endif

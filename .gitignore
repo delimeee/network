@@ -4,4 +4,5 @@ articles/*
 source/cheat_sheet.cpp
 *.
 *.lp
+.vscode
 EXACT_SOLUTION

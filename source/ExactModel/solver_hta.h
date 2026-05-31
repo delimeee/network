@@ -4,41 +4,41 @@
 #include <ilcplex/ilocplex.h>
 
 #include "../Graph/graph.h"
+#include <unordered_set>
 
 using namespace std;
 
 class SolverMT {
 
-	public:
-		SolverMT(Graph&, bool);
-		~SolverMT();
+   public:
+    SolverMT(Graph&, bool);
+    ~SolverMT();
 
-		bool solve();
+    bool solve();
 
-		Graph get_solution();
-		void export_results();
-		void add_survivable_constraint(const std::unordered_set<size_t>&, double);
-        void add_survivable_constraint(
-            const std::vector<std::pair<std::unordered_set<size_t>, double>>&
-        );
-		void add_mip_start(const Graph& g);
+    Graph get_solution();
+    void export_results();
+    void add_survivable_constraint(const std::unordered_set<size_t>&, double);
+    void add_survivable_constraint(
+        const std::vector<std::pair<std::unordered_set<size_t>, double>>&);
+    void add_mip_start(const Graph& g);
 
-	private:
-		int n;
-		int m;
-		Graph graph;
-		vector<double> demands;
-		vector<double> source_max;
+   private:
+    int n;
+    int m;
+    Graph graph;
+    vector<double> demands;
+    vector<double> source_max;
 
-		IloEnv env;
-		IloArray<IloNumArray> Mdist;
+    IloEnv env;
+    IloArray<IloNumArray> Mdist;
 
-		IloModel model;
-		IloCplex cplex;
-		IloArray<IloArray<IloNumVarArray>> x;
-        IloArray<IloArray<IloNumVarArray>> y;
-        IloArray<IloNumVarArray> z;
-		IloArray<IloNumArray> z_sol;
+    IloModel model;
+    IloCplex cplex;
+    IloArray<IloArray<IloNumVarArray>> x;
+    IloArray<IloArray<IloNumVarArray>> y;
+    IloArray<IloNumVarArray> z;
+    IloArray<IloNumArray> z_sol;
 };
 
-#endif // SOLVER_HTA_H
+#endif  // SOLVER_HTA_H

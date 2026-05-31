@@ -1,16 +1,15 @@
-#include<iostream>
-#include "../GraphAnalyzer/ganalyzer.h"
 #include "./oengine.h"
+#include <iostream>
+#include "../GraphAnalyzer/ganalyzer.h"
 
-OptimizationEngine::OptimizationEngine(Graph& g): graph{g},  solve_status{false},
-        survivable_network{false}, iterations{0}{ }
-
+OptimizationEngine::OptimizationEngine(Graph& g)
+    : graph{g}, solve_status{false}, survivable_network{false}, iterations{0} {}
 
 void OptimizationEngine::run() {
 
     OptimizationModel model(graph);
 
-    if(!(solve_status = model.solve())) {
+    if (!(solve_status = model.solve())) {
         return;
     }
 
@@ -18,17 +17,15 @@ void OptimizationEngine::run() {
     GraphAnalyzer graph_analyzer;
     auto constr_vars = graph_analyzer.find_all_violations(g);
     auto constrains = constr_vars;
-    while(!constr_vars.empty()) {
+    while (!constr_vars.empty()) {
         model.add_survivable_constraint(constr_vars);
-        constrains.insert(
-            constrains.end(),
-            std::make_move_iterator(constr_vars.begin()),
-            std::make_move_iterator(constr_vars.end())
-        );
+        constrains.insert(constrains.end(),
+                          std::make_move_iterator(constr_vars.begin()),
+                          std::make_move_iterator(constr_vars.end()));
 
         iterations++;
 
-        if(!(solve_status = model.solve())) {
+        if (!(solve_status = model.solve())) {
             break;
         }
 
@@ -43,7 +40,7 @@ void OptimizationEngine::run() {
     SolverMT exact_model(graph, false);
     exact_model.add_survivable_constraint(constrains);
     std::vector<decltype(constrains)::value_type>().swap(constrains);
-    
+
     exact_model.add_mip_start(graph);
 
     if (!(solve_status = exact_model.solve())) {
@@ -54,9 +51,8 @@ void OptimizationEngine::run() {
     survivable_network = graph_analyzer.validate_solution(graph);
 }
 
-
 Graph OptimizationEngine::get_solution() {
-    if(solve_status) {
+    if (solve_status) {
         return graph;
     } else {
         return Graph();

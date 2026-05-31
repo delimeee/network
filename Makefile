@@ -76,7 +76,7 @@ init :
 	mkdir -p $(OBJ) $(SRC) $(BUILD)
 
 run :
-	cat ./input/main.txt | ./build/network
+	./build/network < ./input/main.txt
 	python draw.py
 
 network : network.o graph.o omodel.o oengine.o oanalyzer.o fmodel.o exmodel.o

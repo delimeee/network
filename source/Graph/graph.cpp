@@ -1,46 +1,40 @@
 #include "graph.h"
+#include <stdexcept>
 #include "../constants.h"
-#include<stdexcept>
-
 
 Node::Node(double x_p, double y_p, double d, NodeType t)
-    : x{x_p}, y{y_p}, demand{d}, type{t} 
-{ }
+    : x{x_p}, y{y_p}, demand{d}, type{t} {}
 
-Node::Node(double x_p, double y_p, NodeType t)
-    : Node::Node(x_p, y_p, 0.0, t)
-{ }
+Node::Node(double x_p, double y_p, NodeType t) : Node::Node(x_p, y_p, 0.0, t) {}
 
-Node::Node()
-    : Node::Node(0.0, 0.0, NodeType::City)
-{ }
+Node::Node() : Node::Node(0.0, 0.0, NodeType::City) {}
 
-Edge::Edge(size_t fromp, size_t top, double costp, double maxp, double flowp, double valp)
-    : from{fromp}, to{top}, cost{costp}, max_flow{maxp}, flow{flowp}, value{valp} 
-{ }
+Edge::Edge(size_t fromp, size_t top, double costp, double maxp, double flowp,
+           double valp)
+    : from{fromp},
+      to{top},
+      cost{costp},
+      max_flow{maxp},
+      flow{flowp},
+      value{valp} {}
 
 Edge::Edge(size_t fromp, size_t top)
-    : Edge::Edge(fromp, top, 0.0, 0.0, 0.0, 0.0)
-{ }
+    : Edge::Edge(fromp, top, 0.0, 0.0, 0.0, 0.0) {}
 
-Edge::Edge()
-    : Edge(0, 0)
-{ }
+Edge::Edge() : Edge(0, 0) {}
 
-Graph::Graph() { }
+Graph::Graph() {}
 
-Graph::Graph(size_t n): adj(n, std::vector<Edge>(n)), nodes(n) {
-    for(size_t i = 0; i != n; ++i) {
-        for(size_t j = 0; j != n; ++j) {
+Graph::Graph(size_t n) : adj(n, std::vector<Edge>(n)), nodes(n) {
+    for (size_t i = 0; i != n; ++i) {
+        for (size_t j = 0; j != n; ++j) {
             adj[i][j].to = j;
             adj[i][j].from = i;
         }
     }
 }
 
-Graph::Graph(const std::vector<Node>& nodesp)
-    : Graph(nodesp.size())
-{
+Graph::Graph(const std::vector<Node>& nodesp) : Graph(nodesp.size()) {
     nodes = nodesp;
 }
 

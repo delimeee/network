@@ -2,9 +2,9 @@
 
 #ifndef FLOW_MODEL_H
 #define FLOW_MODEL_H
-#include "../Graph/graph.h"
 #include <ilcplex/ilocplex.h>
 #include <unordered_set>
+#include "../Graph/graph.h"
 
 class FlowModel {
     IloEnv env;
@@ -13,15 +13,14 @@ class FlowModel {
     Graph graph;
     IloArray<IloNumVarArray> f;
 
-    public:
-        FlowModel(const Graph& g, const std::unordered_set<size_t> nodes);
-        ~FlowModel();
-        FlowModel(const FlowModel&) = delete;
-        FlowModel& operator=(FlowModel) = delete;
+   public:
+    FlowModel(const Graph& g, const std::unordered_set<size_t> nodes);
+    ~FlowModel();
+    FlowModel(const FlowModel&) = delete;
+    FlowModel& operator=(FlowModel) = delete;
 
-        Graph get_solution();
-        bool solve();
-
+    Graph get_solution();
+    bool solve();
 };
 
 #endif
